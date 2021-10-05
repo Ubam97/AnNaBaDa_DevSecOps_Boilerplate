@@ -111,8 +111,8 @@ sudo sysctl -w fs.file-max=65536
 ulimit -n 65536
 ulimit -u 4096
 #영구 설정
-vi /etc/sysctl.conf #맨 밑으로 이동
-sysctl vm.max_map_count = 262144 #입력 후 저장
+vi /etc/sysctl.conf
+sysctl vm.max_map_count = 262144
 
 ##Host <-> Container Permanent Create
 mkdir -p /app/sonarqube/conf
