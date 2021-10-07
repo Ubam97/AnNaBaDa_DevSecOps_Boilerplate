@@ -1,0 +1,22 @@
+{% block content %}
+<body style="text-align: center;" onload="javascript:onload()">
+    <h3>업로드 실패!</h3>
+    <hr width="100%" color="black" />
+
+    <body>
+        <center>
+            <img src="{{ url_for('static',filename='images/anbd.png') }}" , width="100" <br><br>
+            <hr width="100%" color="black" />
+        </center>
+    </body>
+
+    <script language="javascript">
+        function onload() {
+            setTimeout('go_upload()', 800)
+        }
+        function go_upload() {
+            location.href = "/upload"
+        }
+    </script>
+</body>
+{% endblock %}
