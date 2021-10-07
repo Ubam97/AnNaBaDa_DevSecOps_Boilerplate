@@ -268,6 +268,7 @@ bundle install
 ---
 
 ## 8. Prometheus & Grafana(Monitoring)
+**Grafana can log in and get the graph you want and monitor it.**
 
 Installation was carried out with Helm chart.
 
