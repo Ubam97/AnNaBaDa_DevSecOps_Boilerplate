@@ -38,8 +38,8 @@ class Sonarqube:
         sonar_creds[self.__dict__['cred_description']] = SecretTextCredential(cred_dict)
 
     def sonarqubeConfigure(self, servername, scannername, scannerversion):
-        xml_modify("./jenkins_config/hudson.plugins.sonar.SonarGlobalConfiguration.xml", name=servername, serverUrl=self.__dict__['url'], credentialsId=self.__dict__['cred_id'])
-        xml_modify("./jenkins_config/hudson.plugins.sonar.SonarRunnerInstallation.xml", name=scannername, id=scannerversion)
-        copy_to_container("./jenkins_config", "/var/jenkins_home", "hudson.plugins.sonar.SonarRunnerInstallation.xml")
-        copy_to_container("./jenkins_config", "/var/jenkins_home", "hudson.plugins.sonar.SonarGlobalConfiguration.xml")
+        xml_modify("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/jenkins_config/hudson.plugins.sonar.SonarGlobalConfiguration.xml", name=servername, serverUrl=self.__dict__['url'], credentialsId=self.__dict__['cred_id'])
+        xml_modify("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/jenkins_config/hudson.plugins.sonar.SonarRunnerInstallation.xml", name=scannername, id=scannerversion)
+        copy_to_container("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/jenkins_config", "/var/jenkins_home", "hudson.plugins.sonar.SonarRunnerInstallation.xml")
+        copy_to_container("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/jenkins_config", "/var/jenkins_home", "hudson.plugins.sonar.SonarGlobalConfiguration.xml")
     

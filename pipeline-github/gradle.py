@@ -34,6 +34,6 @@ class Gradle:
         }"""
 
     def gradleConfigure(self, gradle_jenkins_configname, gradle_version):
-        xml_modify("./jenkins_config/hudson.plugins.gradle.Gradle.xml", name=gradle_jenkins_configname, id=gradle_version)
-        copy_to_container("./jenkins_config", "/var/jenkins_home", "hudson.plugins.gradle.Gradle.xml")
+        xml_modify("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/jenkins_config/hudson.plugins.gradle.Gradle.xml", name=gradle_jenkins_configname, id=gradle_version)
+        copy_to_container("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/jenkins_config", "/var/jenkins_home", "hudson.plugins.gradle.Gradle.xml")
     

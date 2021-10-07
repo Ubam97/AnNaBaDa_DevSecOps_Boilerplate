@@ -34,6 +34,6 @@ class Slack:
         slack_creds[self.__dict__['cred_description']] = SecretTextCredential(cred_dict)
 
     def slackConfigure(self):
-        xml_modify("./jenkins_config/jenkins.plugins.slack.SlackNotifier.xml", teamDomain=self.__dict__['subdomain'], tokenCredentialId=self.__dict__['cred_id'], room=self.__dict__['channel'])
-        copy_to_container("./jenkins_config", "/var/jenkins_home", "jenkins.plugins.slack.SlackNotifier.xml")
+        xml_modify("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/jenkins_config/jenkins.plugins.slack.SlackNotifier.xml", teamDomain=self.__dict__['subdomain'], tokenCredentialId=self.__dict__['cred_id'], room=self.__dict__['channel'])
+        copy_to_container("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/jenkins_config", "/var/jenkins_home", "jenkins.plugins.slack.SlackNotifier.xml")
     

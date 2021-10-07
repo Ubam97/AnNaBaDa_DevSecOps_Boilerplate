@@ -44,5 +44,5 @@ class Github(object):
         github_creds[self.__dict__['cred_description']] = SecretTextCredential(cred_dict)
 
     def githubConfigure(self):
-        xml_modify("./jenkins_config/github-plugin-configuration.xml", name="github", credentialsId=self.__dict__['cred_id'])
-        copy_to_container("./jenkins_config", "/var/jenkins_home", "github-plugin-configuration.xml")
+        xml_modify("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/jenkins_config/github-plugin-configuration.xml", name="github", credentialsId=self.__dict__['cred_id'])
+        copy_to_container("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/jenkins_config", "/var/jenkins_home", "github-plugin-configuration.xml")

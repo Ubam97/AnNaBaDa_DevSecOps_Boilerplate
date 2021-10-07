@@ -25,5 +25,5 @@ class Dependency:
         }
         """
     def dependencyConfigure(self, dependency_jenkins_configname, dependency_version):
-        xml_modify("./jenkins_config/org.jenkinsci.plugins.DependencyCheck.DependencyCheckToolBuilder.xml", name=dependency_jenkins_configname, id=dependency_version)
-        copy_to_container("./jenkins_config", "/var/jenkins_home", "org.jenkinsci.plugins.DependencyCheck.DependencyCheckToolBuilder.xml")
+        xml_modify("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/jenkins_config/org.jenkinsci.plugins.DependencyCheck.DependencyCheckToolBuilder.xml", name=dependency_jenkins_configname, id=dependency_version)
+        copy_to_container("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/jenkins_config", "/var/jenkins_home", "org.jenkinsci.plugins.DependencyCheck.DependencyCheckToolBuilder.xml")

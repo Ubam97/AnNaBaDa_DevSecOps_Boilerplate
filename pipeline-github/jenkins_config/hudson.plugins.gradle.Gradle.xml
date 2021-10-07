@@ -2,13 +2,13 @@
 <hudson.plugins.gradle.Gradle_-DescriptorImpl plugin="gradle@1.37.1">
   <installations>
     <hudson.plugins.gradle.GradleInstallation>
-      <name>gradle</name>
+      <name>---</name>
       <home />
       <properties>
         <hudson.tools.InstallSourceProperty>
           <installers>
             <hudson.plugins.gradle.GradleInstaller>
-              <id>6.9.1</id>
+              <id>---</id>
             </hudson.plugins.gradle.GradleInstaller>
           </installers>
         </hudson.tools.InstallSourceProperty>

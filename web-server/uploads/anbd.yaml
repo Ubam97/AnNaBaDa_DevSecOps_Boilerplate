@@ -1,0 +1,59 @@
+- tool:
+    name: jenkins
+    data:
+      url: 13.209.26.241:8080
+      username: user
+      password: user
+
+- tool:
+    name: github
+    data:
+      url: https://github.com/Shin9184/springboot_testcode.git
+      username: Shin9184
+      reponame: springboot_testcode
+      token: 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
+    credential:
+      id: github_cred
+      description: github_cred_description
+    webhook:
+      events:
+       - push
+       - pull_request
+      contenttype: json
+      active: true
+
+- tool:
+    name: gradle
+
+- tool:
+    name: sonarqube
+    data:
+      url: 13.209.26.241:9000
+      token: 5f390a3c0c4a0802485115f68583cf14901447e5
+    credential:
+      id: sonar_cred
+      description: sonar_cred_description
+
+- tool:
+    name: dockerhub
+    data:
+      username: tlqkddk123
+      password: younzv520@
+      image: tlqkddk123/spring
+    credential:
+      id: dockerhub_cred
+      description: dockerhub_cred_description
+
+- tool:
+    name: anchore
+    data:
+      url: 13.209.26.241:8228/v1
+      username: admin
+      password: foobar
+      image: fivebird/test
+    credential:
+      id: anchore_cred
+      description: anchore_cred_description
+
+- tool:
+    name: dependency
