@@ -1,0 +1,70 @@
+- tool:
+    name: jenkins
+    data:
+      url: 
+      username: 
+      password: 
+
+- tool:
+    name: github
+    data:
+      url: 
+      username: 
+      reponame: 
+      token: 
+    credential:
+      id: 
+      description: 
+    webhook:
+      events:
+       - push
+       - pull_request
+      contenttype: json
+      active: true
+
+- tool:
+    name: gradle
+
+- tool:
+    name: sonarqube
+    data:
+      url: 
+      token: 
+    credential:
+      id: 
+      description: 
+
+- tool:
+    name: anchore
+    data:
+      url: 
+      username: 
+      password: 
+      image: 
+    credential:
+      id: 
+      description: 
+
+- tool:
+    name: dependency
+
+- tool: 
+    name: dockerhub
+    data:
+      username: 
+      password: 
+      image: 
+    credential:
+      id: 
+      description: 
+
+- tool:
+    name: argocd
+    data:
+      username: 
+      url: 
+      ssh_key: |
+        
+    credential:
+      id:
+      description: 

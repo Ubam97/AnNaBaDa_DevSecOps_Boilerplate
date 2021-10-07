@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+
+<head>
+  <title>ANBD World</title>
+
+<body background="{{ url_for('static',filename='images/anna.png')  }}">
+  <img src="{{ url_for('static',filename='images/anbd.png') }}" width="50" style="float: left">
+</body>
+<style>
+  body {
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 25%;
+  }
+</style>
+</head>
+
+<br><br><br><br><br><br><br><br>
+
+{% extends "base.html" %}
+{% block content %}
+
+<body style="text-align: center;">
+  <table class="table table-borderless" style="margin-left: auto; margin-right: auto;">
+    <tr>
+      <td><img src="{{ url_for('static',filename='images/upload.png') }}" , width="70" ) /></td>
+      <td><img src="{{ url_for('static',filename='images/download.png') }}" , width="70" ) /></td>
+    </tr>
+
+    <tr>
+      <td><a href="./upload">YAML 업로드</a></td>
+      <td><a href="./downfile">YAML 다운로드</a></td>
+    </tr>
+  </table>
+
+  <script>
+    function fn_spread(id) {
+      var getID = document.getElementById(id);
+      getID.style.display = (getID.style.display == 'block') ? 'none' : 'block';
+    }
+  </script>
+
+  <form action="/submit" method="POST">
+    <input placeholder="example.yaml" name="yaml" required />
+    <input type="submit" value="실행" onclick="fn_spread('hiddenContent')" />
+    <div id="hiddenContent" style="display: none;">
+      <img src="{{ url_for('static',filename='images/Hourglass.gif') }}" />
+    </div>
+  </form>
+
+</body>
+{% endblock %}
+placeholder="json"
