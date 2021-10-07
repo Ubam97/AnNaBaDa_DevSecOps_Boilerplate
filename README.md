@@ -501,3 +501,18 @@ It is the url of the master node where argocd is installed.
 <br/>
 <br/>
 
+Run this Project (2 Ways)
+=============
+### 1. Run Python Code
+```bash
+    #start
+    python3 pipeline.py start data.yaml
+
+    #reset
+    python3 pipeline.py reset data.yaml
+```
+<br/>
+<br/>
+<br/>
+
+### 2. Run Webserver
