@@ -507,6 +507,7 @@ Run this Project (2 Ways)
 ```bash
 
     cd ~/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github
+    
     #start
     python3 pipeline.py start data.yaml
 
