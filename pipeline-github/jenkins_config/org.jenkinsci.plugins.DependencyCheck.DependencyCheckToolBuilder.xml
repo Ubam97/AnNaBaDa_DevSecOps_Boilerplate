@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<org.jenkinsci.plugins.DependencyCheck.DependencyCheckToolBuilder_-DependencyCheckToolBuilderDescriptor plugin="dependency-check-jenkins-plugin@5.1.1">
+  <installations>
+    <org.jenkinsci.plugins.DependencyCheck.tools.DependencyCheckInstallation>
+      <name>dependency</name>
+      <home />
+      <properties>
+        <hudson.tools.InstallSourceProperty>
+          <installers>
+            <org.jenkinsci.plugins.DependencyCheck.tools.DependencyCheckInstaller>
+              <id>6.3.1</id>
+            </org.jenkinsci.plugins.DependencyCheck.tools.DependencyCheckInstaller>
+          </installers>
+        </hudson.tools.InstallSourceProperty>
+      </properties>
+    </org.jenkinsci.plugins.DependencyCheck.tools.DependencyCheckInstallation>
+  </installations>
+</org.jenkinsci.plugins.DependencyCheck.DependencyCheckToolBuilder_-DependencyCheckToolBuilderDescriptor>
