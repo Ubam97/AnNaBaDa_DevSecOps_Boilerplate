@@ -217,6 +217,7 @@ PATH="$HOME/.local/bin/:$PATH"
 **Cloud Platform = AWS, Instance=t2.large OS=Amazon linux**
 
 ## 6. ArgoCD(Deploy Tool)
+**You must log in first in the CLI environment.**
 
 ```bash
 ##create namespace&argocd install&argocd CLI install
