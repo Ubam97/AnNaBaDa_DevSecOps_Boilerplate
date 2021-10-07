@@ -503,15 +503,11 @@ It is the url of the master node where argocd is installed.
 
 Run this Project (2 Ways)
 =============
-Please run it in the environment where the Jenkins docker is running.
-<br/>
-It will be modified later.
-
 ### 1. Run Python Code
 ```bash
 
     cd ~/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github
-
+    
     #start
     python3 pipeline.py start data.yaml
 
@@ -523,3 +519,29 @@ It will be modified later.
 <br/>
 
 ### 2. Run Webserver
+
+![31.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/635778a3-33b9-4976-b05c-c6cac531d7f9/31.png)
+
+Go from the clone directory to the web-server directory in Github run python3 main.py
+
+![32.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a6587ae8-0819-4888-afd1-b093dfa34f9c/32.png)
+
+IP address:5500 in the URI address window, the screen appears.
+
+![34.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ce8cf283-f0e0-47e6-be9e-3ff8f0172be9/34.png)
+
+You can only upload files in .yaml format or .yml format from the YAML upload page.
+
+![35.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7221a5df-f83c-43b0-b861-5f67eb4c9098/35.png)
+
+On the download YAML page, you can view the example.yaml file and write yaml according to the form.
+
+You can delete or download the uploaded yaml file.
+
+![38.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fc9e5833-2b95-41e8-868c-52107b5daa4a/38.png)
+
+If you enter and execute the uploaded yaml file, read the contents of yaml and link them.
+
+![39.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/35321057-19e1-4fa7-9adb-d79f51343650/39.png)
+
+The result screen.
