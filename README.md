@@ -142,8 +142,8 @@ cd SonarQube
 version: "3.1"
 services:
   sonarqube:
-    image: sonarqube:7.9.1-community ##You can install the version you want.
-    container_name: sonarqube7.9
+    image: sonarqube:9.1.0-community ##You can install the version you want.
+    container_name: sonarqube9.1.0
     ports:
       - "9000:9000"
       - "9092:9092"
