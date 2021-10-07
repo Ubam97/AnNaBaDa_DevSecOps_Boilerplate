@@ -27,8 +27,8 @@ class Anchore:
         }
         """%(self.__dict__['image'], self.__dict__['image'], self.__dict__['image'], self.__dict__['cred_id'])
     def anchoreConfigure(self):
-        xml_modify("./jenkins_config/com.anchore.jenkins.plugins.anchore.AnchoreBuilder.xml", engineurl=self.__dict__['url'], engineuser=self.__dict__['username'], enginepass=self.__dict__['password'])
-        copy_to_container("./jenkins_config","/var/jenkins_home","com.anchore.jenkins.plugins.anchore.AnchoreBuilder.xml")
+        xml_modify("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/jenkins_config/com.anchore.jenkins.plugins.anchore.AnchoreBuilder.xml", engineurl=self.__dict__['url'], engineuser=self.__dict__['username'], enginepass=self.__dict__['password'])
+        copy_to_container("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/jenkins_config","/var/jenkins_home","com.anchore.jenkins.plugins.anchore.AnchoreBuilder.xml")
     def createCredential(self):
         anchore_creds = self.jenkins.credentials
         cred_dict = {

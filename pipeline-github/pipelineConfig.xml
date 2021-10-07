@@ -17,7 +17,7 @@
       <configVersion>2</configVersion>
       <userRemoteConfigs>
         <hudson.plugins.git.UserRemoteConfig>
-          <url>____</url>
+          <url>---</url>
         </hudson.plugins.git.UserRemoteConfig>
       </userRemoteConfigs>
       <branches>
@@ -29,7 +29,7 @@
       <submoduleCfg class="empty-list" />
       <extensions />
     </scm>
-    <scriptPath>____</scriptPath>
+    <scriptPath>---/scriptPath>
     <lightweight>true</lightweight>
   </definition>
   <triggers />

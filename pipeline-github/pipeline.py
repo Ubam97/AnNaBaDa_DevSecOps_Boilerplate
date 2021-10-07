@@ -362,9 +362,9 @@ spec:
                 print("Already exists jenkinsfile in github repository")
 
             # 7-2. Create jenkins pipeline
-            xml_modify("pipelineConfig.xml", url=var.getGithubData()
+            xml_modify("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/pipelineConfig.xml", url=var.getGithubData()
                        ['url'], scriptPath=pipelineScript)
-            with open("pipelineConfig.xml", 'r') as xml:
+            with open("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/pipelineConfig.xml", 'r') as xml:
                 pipeline_configXml = xml.read()
 
             try:

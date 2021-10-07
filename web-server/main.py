@@ -70,15 +70,17 @@ def submit():
 	if request.method == 'POST':
 		yaml = request.form["yaml"]
 		print(yaml)
-		os.system('python3 /home/ec2-user/flask-server/pipeline-github/pipeline2.py start ./uploads/{}'.format(yaml))
+		os.system('python3 /home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/pipeline.py start ./uploads/{}'.format(yaml))
 		return render_template('upload_success.html')
 	elif request.method == 'POST':
 		yml = request.form["yaml"]
 		print(yml)
-		os.system('python3 /home/ec2-user/flask-server/pipeline-github/pipeline2.py start ./uploads/{}'.format(yml))
+		os.system('python3 /home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/pipeline.py start ./uploads/{}'.format(yml))
 		return render_template('upload_success.html')
 	else:
 		return render_template('upload_failed.html')
+
+# 리셋 추가하기
 
 # 서버 실행
 if __name__ == '__main__':

@@ -2,13 +2,13 @@
 <org.jenkinsci.plugins.DependencyCheck.DependencyCheckToolBuilder_-DependencyCheckToolBuilderDescriptor plugin="dependency-check-jenkins-plugin@5.1.1">
   <installations>
     <org.jenkinsci.plugins.DependencyCheck.tools.DependencyCheckInstallation>
-      <name>dependency</name>
+      <name>---</name>
       <home />
       <properties>
         <hudson.tools.InstallSourceProperty>
           <installers>
             <org.jenkinsci.plugins.DependencyCheck.tools.DependencyCheckInstaller>
-              <id>6.3.1</id>
+              <id>---</id>
             </org.jenkinsci.plugins.DependencyCheck.tools.DependencyCheckInstaller>
           </installers>
         </hudson.tools.InstallSourceProperty>
