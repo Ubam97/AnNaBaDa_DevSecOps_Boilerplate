@@ -193,7 +193,7 @@ sonarqube {
 
 **How to link dependency check in sonarquube**
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/21bb45de-ff8f-47f8-ae74-94a839a573fb/Untitled.png)
+![Untitled](https://user-images.githubusercontent.com/88227041/136323651-1bd03676-6688-4307-bfe4-ffc973da7c6d.png)
 
 ---
 
