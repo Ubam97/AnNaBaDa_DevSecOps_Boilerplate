@@ -387,7 +387,6 @@ kubectl get svc
 <br/>
 <br/>
 <br/>
-# springboot_testcode
 
 YAML (Just put the tools you need in the yaml file.)
 =============
