@@ -520,28 +520,28 @@ Run this Project (2 Ways)
 
 ### 2. Run Webserver
 
-![31.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/635778a3-33b9-4976-b05c-c6cac531d7f9/31.png)
+![31](https://user-images.githubusercontent.com/78459621/136342016-5631f604-84fe-46c2-a819-14208150849b.PNG)
 
 Go from the clone directory to the web-server directory in Github run python3 main.py
 
-![32.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a6587ae8-0819-4888-afd1-b093dfa34f9c/32.png)
+![32](https://user-images.githubusercontent.com/78459621/136342001-21dd71d9-f0e8-40d1-a44a-8fa922322f0d.PNG)
 
 IP address:5500 in the URI address window, the screen appears.
 
-![34.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ce8cf283-f0e0-47e6-be9e-3ff8f0172be9/34.png)
+![34](https://user-images.githubusercontent.com/78459621/136342007-1743781a-b18f-4e97-81c0-b5891665d9ef.PNG)
 
 You can only upload files in .yaml format or .yml format from the YAML upload page.
 
-![35.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7221a5df-f83c-43b0-b861-5f67eb4c9098/35.png)
+![35](https://user-images.githubusercontent.com/78459621/136342009-8a545c9f-29e6-40f9-bd5c-f2a892e0392a.PNG)
 
 On the download YAML page, you can view the example.yaml file and write yaml according to the form.
 
 You can delete or download the uploaded yaml file.
 
-![38.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fc9e5833-2b95-41e8-868c-52107b5daa4a/38.png)
+![37](https://user-images.githubusercontent.com/78459621/136342010-912b12c2-0747-4f3c-b75c-4124e5f0789f.PNG)
 
 If you enter and execute the uploaded yaml file, read the contents of yaml and link them.
 
-![39.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/35321057-19e1-4fa7-9adb-d79f51343650/39.png)
+![39](https://user-images.githubusercontent.com/78459621/136342012-a4b6ca57-f95c-4aae-a464-aa7c61e6c2e0.PNG)
 
 The result screen.
