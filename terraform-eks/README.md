@@ -55,7 +55,7 @@ kubectl get svc
 kubectl get nodes
 ```
 
-## EKS 구성도
+## EKS block diagram
 
 ![terraform-eks](https://user-images.githubusercontent.com/78459621/136326083-31291d00-f985-4cbf-8f2c-c948ffb639d7.png)
 
