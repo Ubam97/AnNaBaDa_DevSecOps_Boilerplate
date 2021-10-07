@@ -522,6 +522,9 @@ Run this Project (2 Ways)
 
 ![31](https://user-images.githubusercontent.com/78459621/136342016-5631f604-84fe-46c2-a819-14208150849b.PNG)
 
+Pre-installation.
+pip3 install flask
+
 Go from the clone directory to the web-server directory in Github run python3 main.py
 
 ![32](https://user-images.githubusercontent.com/78459621/136342001-21dd71d9-f0e8-40d1-a44a-8fa922322f0d.PNG)
