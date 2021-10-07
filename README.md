@@ -220,6 +220,7 @@ PATH="$HOME/.local/bin/:$PATH"
 **Warning :  We installed the tools below on the EKS-Cluster control plane (master node).**
 
 **Please refer to the Terraform item for EKS-CLUSTER environment construction.**
+[EKS-Cluster Buid it](https://github.com/eub456/AnNaBaDa_DevSecOps_Boilerplate/tree/main/terraform-eks#readme)
 
 **Cloud Platform = AWS, Instance=t2.large OS=Amazon linux**
 
