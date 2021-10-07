@@ -57,7 +57,7 @@ kubectl get nodes
 
 ## EKS 구성도
 
-![terraform-eks.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f2a6a5fc-d5ba-43e9-bb87-3cea99038ffa/terraform-eks.png)
+![terraform-eks](https://user-images.githubusercontent.com/78459621/136326083-31291d00-f985-4cbf-8f2c-c948ffb639d7.png)
 
 The master node creates on the default VPC and installs the files installed above. (It can be installed on another VPC)
 
