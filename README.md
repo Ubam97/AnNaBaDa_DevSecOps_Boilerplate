@@ -16,6 +16,21 @@ If there's a version you want, it doesn't matter if you install the version you 
 
 ---
 
+<h1>Caution</h1>
+
+---
+
+**Warning :  If your spring boot version is 2.5 or higher, Add the following content to the build.gradle**
+
+**Warning : This prevents creating a plain.jar file.**
+
+```bash
+jar {
+      enabled = false
+    } 
+```
+---
+
 ## 1. Docker
 
 ```bash
@@ -33,7 +48,6 @@ sudo groupadd docker
 sudo usermod -aG docker $USER
 sudo chmod 666 /var/run/docker.sock
 ```
-
 ---
 
 ## 2. Jenkins
@@ -165,21 +179,14 @@ docker-compose up -d
 ```
 
 ```makefile
-##example 1 "build.gradle"
+##example "build.gradle"
 plugins {
-	id "org.sonarqube" version "3.0"
-}
-```
-
-```makefile
-##example 2 "build.gradle"
-plugins {
-	id "org.sonarqube" version "3.0"
+	id "org.sonarqube" version "3.3"
 }
 
 sonarqube {
 	properties {
-		property "sonar.projectKey", "<project_key>"
+		property "sonar.projectKey", "sonar_test"
 	}
 }
 ```
