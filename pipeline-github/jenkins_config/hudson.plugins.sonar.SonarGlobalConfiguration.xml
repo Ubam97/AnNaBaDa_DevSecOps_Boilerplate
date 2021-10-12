@@ -2,9 +2,9 @@
 <hudson.plugins.sonar.SonarGlobalConfiguration plugin="sonar@2.13.1">
   <installations>
     <hudson.plugins.sonar.SonarInstallation>
-      <name>---</name>
-      <serverUrl>---</serverUrl>
-      <credentialsId>---</credentialsId>
+      <name>SonarServer</name>
+      <serverUrl>http://3.34.253.19:9000</serverUrl>
+      <credentialsId>sonar_cred</credentialsId>
       <webhookSecretId />
       <mojoVersion />
       <additionalProperties />

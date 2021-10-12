@@ -1,4 +1,5 @@
 from github import Github
+from gitlab import Gitlab
 from slack import Slack
 from gradle import Gradle
 from sonarqube import Sonarqube
@@ -6,15 +7,17 @@ from dockerhub import Dockerhub
 from dependency import Dependency
 from anchore import Anchore
 from argocd import Argocd
+from arachni import Arachni
 from variable import Variable
 from jenkinsapi.jenkins import Jenkins
 import urllib.parse
 import requests
 import base64
 from xml.etree.ElementTree import parse
+import urllib
 import sys
 import json
-
+import os
 
 def stringToBase64(s):
     return base64.b64encode(s.encode('utf-8'))
@@ -27,7 +30,6 @@ def xml_modify(filename, **kargs):
         for i in root.iter(tag):
             i.text = value
     tree.write(filename, encoding='UTF-8', xml_declaration=True)
-
 
 if len(sys.argv) >= 4:
     print("Too many arguments")
@@ -49,12 +51,13 @@ elif len(sys.argv) == 3:
         jenkins = Jenkins(jenkins_url, username=var.getJenkinsData()[
                           'username'], password=var.getJenkinsData()['password'], useCrumb=True)
         print("jenkins plugin installing...")
-        jenkins.install_plugins(pluginList)
+        # jenkins.install_plugins(pluginList)
         print("Done...")
 
-        # 1. Github
+        # 1. Github or Gitlab
         # 1-1. Github webhook configuration
-        if "github" in toolList:
+
+        if "github" in toolList and "gitlab" not in toolList:
             github_apiurl = "https://api.github.com/repos/{0}/{1}/hooks".format(
                 var.getGithubData()['username'], var.getGithubData()['reponame'])
             github_body = {
@@ -81,9 +84,17 @@ elif len(sys.argv) == 3:
             github.githubConfigure()
             stages.append(github.__dict__['stage'])
             print("Complete Github Configuration")
-        else:
-            print("not exist github tool in yaml!")
+        
+        # GitLab
+        elif "gitlab" in toolList and "github" not in toolList:
+            # Create gitlab credential in jenkins server
+            gitlab = Gitlab(jenkins, token=var.getGitlabData()['token'], url=var.getGitlabData()['url'], username=var.getGitlabData()['username'], password=var.getGitlabData()['password'], cred_id=var.getGitlabCred()['id'], cred_description=var.getGitlabCred()['description'])
+            gitlab.createCredential()
+            stages.append(gitlab.__dict__['stage'])
 
+        else:
+            print("2 or more SCM tool Selected in yaml, Please Check this again!")
+            exit()
         # 2. Slack
         def request_test(url, username, password):
             # Build the Jenkins crumb issuer URL
@@ -215,21 +226,42 @@ elif len(sys.argv) == 3:
 
             content = stringToBase64(dockerfile)
 
-            github_requesturl = "https://api.github.com/repos/{}/{}/contents/Dockerfile".format(
-                var.getGithubData()['username'], var.getGithubData()['reponame'])
-            body = {
-                "message": "create a default dockerfile",
-                "content": content
-            }
-            github = Github(jenkins, token=var.getGithubData()['token'], cred_id=var.getGithubCred()[
-                            'id'], cred_description=var.getGithubCred()['description'], url=var.getGithubData()['url'])
-            response = github.call_api("PUT", github_requesturl, body)
-            if response.status_code == 201:
-                print("Created dockerfile in Github repository")
-            else:
-                print("Already exists dockerfile in github repository")
-            stages.append(dockerhub.__dict__['stage'])
-            print("Complete Dockerhub Configuration")
+            # if SCM tool is Github:
+            if "github" in toolList:
+                github_requesturl = "https://api.github.com/repos/{}/{}/contents/Dockerfile".format(
+                    var.getGithubData()['username'], var.getGithubData()['reponame'])
+                body = {
+                    "message": "create a default dockerfile",
+                    "content": content
+                }
+                github = Github(jenkins, token=var.getGithubData()['token'], cred_id=var.getGithubCred()[
+                                'id'], cred_description=var.getGithubCred()['description'], url=var.getGithubData()['url'])
+                response = github.call_api("PUT", github_requesturl, body)
+                if response.status_code == 201:
+                    print("Created dockerfile in Github repository")
+                else:
+                    print("Already exists dockerfile in Github repository or Unexpected Error")
+                stages.append(dockerhub.__dict__['stage'])
+                print("Complete Dockerhub Configuration")
+            
+            # if SCM tool is Gitlab:
+            elif "gitlab" in toolList:
+                filepath = "Dockerfile"
+                enc_filepath = urllib.parse.quote(filepath, safe="")
+                print(enc_filepath)
+                url = "https://gitlab.com/api/v4/projects/{}/repository/files/{}".format(str(var.getGitlabData()['projectid']), enc_filepath)
+                body = {
+                    "branch": "main",
+                    "content": dockerfile,
+                    "commit_message": "create file by api"
+                }
+                response = gitlab.call_api("POST", url, body)
+                if response.status_code == 201:
+                    print("Created dockerfile in Gitlab repository")
+                else:
+                    print("Already exists dockerfile in Gitlab repository or Unexpected Error")
+                stages.append(dockerhub.__dict__['stage'])
+                print("Complete Dockerhub Configuration")
 
         else:
             print("not exist dockerhub in yaml!!")
@@ -250,8 +282,17 @@ elif len(sys.argv) == 3:
         if "argocd" in toolList:
 
             # 6-1. Create ArgoCD credential with SSH key
-            argocd = Argocd(jenkins, cred_id=var.getArgocdCred()['id'], cred_description=var.getArgocdCred()['description'], cred_sshkey=var.getArgocdData()[
-                            'ssh_key'], cred_username=var.getArgocdData()['username'], masternode_url=var.getArgocdData()['url'], github_url=var.getGithubData()['url'])
+
+            # if SCM tool is github:
+            if "github" in toolList:
+                # Set github and gitlab data to environment variable in jenkins docker.
+                argocd = Argocd(jenkins, cred_id=var.getArgocdCred()['id'], cred_description=var.getArgocdCred()['description'], cred_sshkey=var.getArgocdData()[
+                                'ssh_key'], cred_username=var.getArgocdData()['username'], masternode_url=var.getArgocdData()['url'], scm_url=var.getGithubData()['url'])
+            elif "gitlab" in toolList:
+                # Set github and gitlab data to environment variable in jenkins docker.
+                argocd = Argocd(jenkins, cred_id=var.getArgocdCred()['id'], cred_description=var.getArgocdCred()['description'], cred_sshkey=var.getArgocdData()[
+                                'ssh_key'], cred_username=var.getArgocdData()['username'], masternode_url=var.getArgocdData()['url'], scm_url=var.getGitlabData()['url'])
+
             argocd.createCredential()
 
             # 6-2. Create ArgoCD config yaml in git repository
@@ -293,50 +334,95 @@ spec:
             deployments = stringToBase64(argocd_deployments_yaml)
             svc = stringToBase64(argocd_svc_yaml)
 
-            github_requesturl_argocd_deployments = "https://api.github.com/repos/{}/{}/contents/{}/deployments.yaml".format(
-                var.getGithubData()['username'], var.getGithubData()['reponame'], argocd_yamldir)
-            body1 = {
-                "message": "create a default deployments yaml",
-                "content": deployments
-            }
-            github_requesturl_argocd_svc = "https://api.github.com/repos/{}/{}/contents/{}/svc.yaml".format(
-                var.getGithubData()['username'], var.getGithubData()['reponame'], argocd_yamldir)
-            body2 = {
-                "message": "create a default svc yaml",
-                "content": svc
-            }
-            github = Github(jenkins, token=var.getGithubData()['token'], cred_id=var.getGithubCred()[
-                            'id'], cred_description=var.getGithubCred()['description'], url=var.getGithubData()['url'])
-            response1 = github.call_api(
-                "PUT", github_requesturl_argocd_deployments, body1)
-            if response1.status_code == 201:
-                print("Created argocd deployment.yaml in Github repository")
-            else:
-                print("Already exists argocd deployment.yaml in github repository")
-            response2 = github.call_api(
-                "PUT", github_requesturl_argocd_svc, body2)
-            if response2.status_code == 201:
-                print("Created argocd svc.yaml in Github repository")
-            else:
-                print("Already exists argocd svc.yaml in github repository")
+            # if SCM tool is github:
+            if "github" in toolList:
+                github_requesturl_argocd_deployments = "https://api.github.com/repos/{}/{}/contents/{}/deployments.yaml".format(
+                    var.getGithubData()['username'], var.getGithubData()['reponame'], argocd_yamldir)
+                body1 = {
+                    "message": "create a default deployments yaml",
+                    "content": deployments
+                }
+                github_requesturl_argocd_svc = "https://api.github.com/repos/{}/{}/contents/{}/svc.yaml".format(
+                    var.getGithubData()['username'], var.getGithubData()['reponame'], argocd_yamldir)
+                body2 = {
+                    "message": "create a default svc yaml",
+                    "content": svc
+                }
+                github = Github(jenkins, token=var.getGithubData()['token'], cred_id=var.getGithubCred()[
+                                'id'], cred_description=var.getGithubCred()['description'], url=var.getGithubData()['url'])
+                response1 = github.call_api(
+                    "PUT", github_requesturl_argocd_deployments, body1)
+                if response1.status_code == 201:
+                    print("Created argocd deployment.yaml in Github repository")
+                else:
+                    print("Already exists argocd deployment.yaml in github repository")
+                response2 = github.call_api(
+                    "PUT", github_requesturl_argocd_svc, body2)
+                if response2.status_code == 201:
+                    print("Created argocd svc.yaml in Github repository")
+                else:
+                    print("Already exists argocd svc.yaml in github repository")
 
-            stages.append(argocd.__dict__['stage'])
-            print("Complete Argocd Configuration")
+                stages.append(argocd.__dict__['stage'])
+                print("Complete Argocd Configuration")
+            
+            # if SCM tool is gitlab:
+            elif "gitlab" in toolList:
+                filepath = "{}/deployments.yaml".format(argocd_yamldir)
+                enc_filepath = urllib.parse.quote(filepath, safe="")
+                url = "https://gitlab.com/api/v4/projects/{}/repository/files/{}".format(str(var.getGitlabData()['projectid']), enc_filepath)
+                body = {
+                    "branch": "main",
+                    "content": argocd_deployments_yaml,
+                    "commit_message": "create file by api"
+                }
+                response = gitlab.call_api("POST", url, body)
+                if response.status_code == 201:
+                    print("Created deployments.yaml in Gitlab repository")
+                else:
+                    print("Already exists deployments.yaml in Gitlab repository or Unexpected Error")
+
+                filepath = "{}/svc.yaml".format(argocd_yamldir)
+                enc_filepath = urllib.parse.quote(filepath, safe="")
+                url = "https://gitlab.com/api/v4/projects/{}/repository/files/{}".format(str(var.getGitlabData()['projectid']), enc_filepath)
+                body = {
+                    "branch": "main",
+                    "content": argocd_svc_yaml,
+                    "commit_message": "create file by api"
+                }
+                response = gitlab.call_api("POST", url, body)
+                if response.status_code == 201:
+                    print("Created svc.yaml in Gitlab repository")
+                else:
+                    print("Already exists svc.yaml in Gitlab repository or Unexpected Error")
+
+                stages.append(argocd.__dict__['stage'])
+                print("Complete Argocd Configuration")
+
         else:
             print("not exist argocd in yaml!")
 
-        # 7. Pipeline
-        # 7-1. Create pipeline script in github repository.
+        # 7. Arachni
+        # 7-1. Add arachni pipeline script in jenkinsfile
+        if "arachni" in toolList and "argocd" in toolList:
+            if var.getArachniData()['url'] != None:
+                arachni = Arachni(cred_id=var.getArgocdCred()['id'], masternode_url=var.getArgocdData()['url'], node_url=var.getArachniData()['url'])
+                stages.append(arachni.__dict__['stage'])
+                print("Complete Arachni Configuration")
+            else:
+                arachni = Arachni(cred_id=var.getArgocdCred()['id'], masternode_url=var.getArgocdData()['url'], node_url="{Add the deployed node URL here}")
+                stages.append(arachni.__dict__['stage'])
+                print("Complete Arachni Configuration")
+
+        # 8. Pipeline
+        # 8-1. Create pipeline script in github repository.
         if len(toolList) > 0:
             print("jenkins server restarting.......")
-            try:
-                jenkins.safe_restart()
-            except Exception as e:
-                pass
+            # jenkins.safe_restart()
             print("Completed jenkins server restarting!")
 
             pipelineScript = "jenkinsfile"
-            pipelineName = "TEST"
+            pipelineName = "ANBD"
             stages = '\n\t'.join(stages)
             jenkinsfile = """pipeline {
                 agent any
@@ -345,33 +431,69 @@ spec:
                 }
             }""" % (stages)
 
-            jenkinsfile = stringToBase64(jenkinsfile)
-            github_requesturl_pipeline_script = "https://api.github.com/repos/{}/{}/contents/{}".format(
-                var.getGithubData()['username'], var.getGithubData()['reponame'], pipelineScript)
-            body = {
-                "message": "create a pipeline script",
-                "content": jenkinsfile
-            }
-            github = Github(jenkins, token=var.getGithubData()['token'], cred_id=var.getGithubCred()[
-                            'id'], cred_description=var.getGithubCred()['description'], url=var.getGithubData()['url'])
-            response = github.call_api(
-                "PUT", github_requesturl_pipeline_script, body)
-            if response.status_code == 201:
-                print("Created jenkinsfile in Github repository")
-            else:
-                print("Already exists jenkinsfile in github repository")
+            # if SCM tool is github:
+            if "github" in toolList:
+                github_jenkinsfile = stringToBase64(jenkinsfile)
+                github_requesturl_pipeline_script = "https://api.github.com/repos/{}/{}/contents/{}".format(
+                    var.getGithubData()['username'], var.getGithubData()['reponame'], pipelineScript)
+                body = {
+                    "message": "create a pipeline script",
+                    "content": github_jenkinsfile
+                }
+                github = Github(jenkins, token=var.getGithubData()['token'], cred_id=var.getGithubCred()[
+                                'id'], cred_description=var.getGithubCred()['description'], url=var.getGithubData()['url'])
+                response = github.call_api(
+                    "PUT", github_requesturl_pipeline_script, body)
+                if response.status_code == 201:
+                    print("Created jenkinsfile in Github repository")
+                else:
+                    print("Already exists jenkinsfile in github repository")
 
-            # 7-2. Create jenkins pipeline
-            xml_modify("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/pipelineConfig.xml", url=var.getGithubData()
-                       ['url'], scriptPath=pipelineScript)
-            with open("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/pipelineConfig.xml", 'r') as xml:
-                pipeline_configXml = xml.read()
+            elif "gitlab" in toolList:
 
-            try:
-                jenkins.create_multibranch_pipeline_job(
-                    jobname=pipelineName, xml=pipeline_configXml)
-            except Exception as e:
-                pass
+                gitlab_apiurl = "https://gitlab.com/api/v4/projects/{}/integrations/jenkins".format(str(var.getGitlabData()['projectid']))
+                gitlab_apibody = {
+                    "jenkins_url": jenkins_url,
+                    "project_name": pipelineName, # jenkins pipeline name
+                    "username": var.getJenkinsData()['username'], # jenkins username
+                    "password": var.getJenkinsData()['password'], # jenkins password
+                    "push_events": True
+                }
+                response = gitlab.call_api("PUT", gitlab_apiurl, gitlab_apibody)
+                print(response.status_code, "Compelte Integration Jenkins in Gitlab")
+
+                filepath = pipelineScript
+                enc_filepath = urllib.parse.quote(filepath, safe="")
+                url = "https://gitlab.com/api/v4/projects/{}/repository/files/{}".format(str(var.getGitlabData()['projectid']), enc_filepath)
+                body = {
+                    "branch": "main",
+                    "content": jenkinsfile,
+                    "commit_message": "create file by api"
+                }
+                response = gitlab.call_api("POST", url, body)
+                if response.status_code == 201:
+                    print("Created jenkinsfile in Gitlab repository")
+                else:
+                    print("Already exists jenkinsfile in Gitlab repository or Unexpected Error")
+
+            # 8-2. Create jenkins pipeline
+            # if SCM tool is github:
+            if "github" in toolList:
+                xml_modify("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/githubPipelineConfig.xml", url=var.getGithubData()['url'], scriptPath=pipelineScript)
+                with open("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/githubPipelineConfig.xml", 'r') as xml:
+                    pipeline_configXml = xml.read()
+                try:
+                    jenkins.create_multibranch_pipeline_job(jobname=pipelineName, xml=pipeline_configXml)
+                except Exception as e:
+                    pass
+            elif "gitlab" in toolList:
+                xml_modify("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/gitlabPipelineConfig.xml", url=var.getGitlabData()['url'], scriptPath=pipelineScript, credentialsId=var.getGitlabCred()['id'])
+                with open("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/gitlabPipelineConfig.xml", 'r') as xml:
+                    pipeline_configXml = xml.read()
+                try:
+                    jenkins.create_multibranch_pipeline_job(jobname=pipelineName, xml=pipeline_configXml)
+                except Exception as e:
+                    pass
             print("--------------The End--------------")
 
     elif sys.argv[1] == "reset":
