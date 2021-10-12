@@ -48,8 +48,7 @@ elif len(sys.argv) == 3:
 
         # 0. Jenkins
         jenkins_url = "http://{}".format(var.getJenkinsData()['url'])
-        jenkins = Jenkins(jenkins_url, username=var.getJenkinsData()[
-                          'username'], password=var.getJenkinsData()['password'], useCrumb=True)
+        jenkins = Jenkins(jenkins_url, username=var.getJenkinsData()['username'], password=var.getJenkinsData()['password'], useCrumb=True)
         print("jenkins plugin installing...")
         # jenkins.install_plugins(pluginList)
         print("Done...")
@@ -58,8 +57,7 @@ elif len(sys.argv) == 3:
         # 1-1. Github webhook configuration
 
         if "github" in toolList and "gitlab" not in toolList:
-            github_apiurl = "https://api.github.com/repos/{0}/{1}/hooks".format(
-                var.getGithubData()['username'], var.getGithubData()['reponame'])
+            github_apiurl = "https://api.github.com/repos/{0}/{1}/hooks".format(var.getGithubData()['username'], var.getGithubData()['reponame'])
             github_body = {
                 "name": "web",
                 "events": var.getGithubWebhook()['events'],
@@ -69,8 +67,7 @@ elif len(sys.argv) == 3:
                     "content_type": var.getGithubWebhook()['contenttype']
                 }
             }
-            github = Github(jenkins, token=var.getGithubData()['token'], cred_id=var.getGithubCred()[
-                            'id'], cred_description=var.getGithubCred()['description'], url=var.getGithubData()['url'])
+            github = Github(jenkins, token=var.getGithubData()['token'], cred_id=var.getGithubCred()['id'], cred_description=var.getGithubCred()['description'], url=var.getGithubData()['url'])
             response = github.call_api("POST", github_apiurl, github_body)
             if response.status_code == 201:
                 print("Created webhook in Github repository")
@@ -118,8 +115,7 @@ elif len(sys.argv) == 3:
             r = session.post(url, headers=headers, data=payload, auth=auth)
 
         if "slack" in toolList:
-            slack = Slack(jenkins, token=var.getSlackData()['token'], subdomain=var.getSlackData()['subdomain'], channel=var.getSlackData()[
-                          'channel'], cred_id=var.getSlackCred()['id'], cred_description=var.getSlackCred()['description'])
+            slack = Slack(jenkins, token=var.getSlackData()['token'], subdomain=var.getSlackData()['subdomain'], channel=var.getSlackData()['channel'], cred_id=var.getSlackCred()['id'], cred_description=var.getSlackCred()['description'])
 
             # 2-1. Create slack credential in jenkins server
             slack.createCredential()
@@ -422,7 +418,7 @@ spec:
             print("Completed jenkins server restarting!")
 
             pipelineScript = "jenkinsfile"
-            pipelineName = "ANBD"
+            pipelineName = "PIPELINEJOB"
             stages = '\n\t'.join(stages)
             jenkinsfile = """pipeline {
                 agent any
