@@ -81,3 +81,7 @@
       id: argocd
       description: argocd_cred_description
 
+- tool:
+    name: arachni
+    data:
+      url: # Enter the url of the node deployed in argocd. # If there is no url deployed yet, leave it as an empty value, and add the deployed node url to jenkinsfile later.

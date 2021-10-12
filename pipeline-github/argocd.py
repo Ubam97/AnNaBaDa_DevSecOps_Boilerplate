@@ -27,7 +27,7 @@ class Argocd:
                     }
                 }
             }
-        }"""%(self.__dict__['cred_id'], self.__dict__['masternode_url'], self.__dict__['github_url'], self.__dict__['masternode_url'], self.__dict__['github_url'])
+        }"""%(self.__dict__['cred_id'], self.__dict__['masternode_url'], self.__dict__['scm_url'], self.__dict__['masternode_url'], self.__dict__['scm_url'])
 
     def createCredential(self):
         argocd_creds = self.jenkins.credentials
