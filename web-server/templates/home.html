@@ -30,8 +30,8 @@
     </tr>
 
     <tr>
-      <td><a href="./upload">YAML 업로드</a></td>
-      <td><a href="./downfile">YAML 다운로드</a></td>
+      <td><a href="./upload">YAML Upload</a></td>
+      <td><a href="./downfile">YAML Download</a></td>
     </tr>
   </table>
 
@@ -44,8 +44,18 @@
 
   <form action="/submit" method="POST">
     <input placeholder="example.yaml" name="yaml" required />
-    <input type="submit" value="실행" onclick="fn_spread('hiddenContent')" />
-    <div id="hiddenContent" style="display: none;">
+    <input type="submit" value="launch" onclick="fn_spread('hiddenContent1')" />
+    <div id="hiddenContent1" style="display: none;">
+      <img src="{{ url_for('static',filename='images/Hourglass.gif') }}" />
+    </div>
+  </form>
+
+  <br><br><br>
+
+  <form action="/reset" method="POST">
+    <input placeholder="example.yaml" name="yaml" required />
+    <input type="submit" value="reset" onclick="fn_spread('hiddenContent2')" />
+    <div id="hiddenContent2" style="display: none;">
       <img src="{{ url_for('static',filename='images/Hourglass.gif') }}" />
     </div>
   </form>
