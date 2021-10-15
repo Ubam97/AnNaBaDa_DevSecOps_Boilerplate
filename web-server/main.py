@@ -80,7 +80,7 @@ def submit():
 	else:
 		return render_template('upload_failed.html')
 
-# 리셋 추가하기
+# YAML 리셋
 @app.route('/reset', methods = ['GET', 'POST'])
 def reset():
 	if request.method == 'POST':
