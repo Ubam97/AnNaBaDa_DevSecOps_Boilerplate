@@ -53,7 +53,7 @@
 - tool:
     name: snyk
     data:
-      token: 5713b67d-d1b5-48a4-bfd0-1165e27bac7f # your snyk auth token, ex) abcd-wqb2-...
+      token: # your snyk auth token, ex) abcd-wqb2-...
     credential:
       id: snyk_cred
       description: snyk_cred_description
@@ -71,11 +71,11 @@
 - tool:
     name: ecr
     data:
-      accesskey: AKIAW7C3JK2V2AEBBIIZ # your AWS accesskey ex ) abcd...
-      secretkey: q6PezOgrQ+w929KuFNM1/DCFnH0azBrBZx0FZczA # # your AWS secretkey ex ) zyx...
-      account: 479080306347 # your AWS account number
-      region: ap-northeast-2 # your AWS region
-      image: 479080306347.dkr.ecr.ap-northeast-2.amazonaws.com/dongsu # your repositories url
+      accesskey: # your AWS accesskey ex ) abcd...
+      secretkey: # # your AWS secretkey ex ) zyx...
+      account: # your AWS account number
+      region: # your AWS region
+      image: # your repositories url
     credential:
       id: aws_cred
       description: aws_cred_description
@@ -94,7 +94,7 @@
 - tool:
     name: trivy
     data:
-      image: 479080306347.dkr.ecr.ap-northeast-2.amazonaws.com/dongsu # your dockerhub or ecr image, ex) username/test  ..... I'll delete this part later...  
+      image: # your dockerhub or ecr image, ex) username/test  ..... I'll delete this part later...  
 
 - tool:
     name: dependency
