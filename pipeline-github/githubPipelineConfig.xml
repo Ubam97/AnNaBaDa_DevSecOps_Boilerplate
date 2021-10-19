@@ -17,7 +17,7 @@
       <configVersion>2</configVersion>
       <userRemoteConfigs>
         <hudson.plugins.git.UserRemoteConfig>
-          <url>___</url>
+          <url>https://github.com/Shin9184/mvn_test.git</url>
         </hudson.plugins.git.UserRemoteConfig>
       </userRemoteConfigs>
       <branches>
@@ -29,7 +29,7 @@
       <submoduleCfg class="empty-list" />
       <extensions />
     </scm>
-    <scriptPath>___</scriptPath>
+    <scriptPath>jenkinsfile</scriptPath>
     <lightweight>true</lightweight>
   </definition>
   <triggers />

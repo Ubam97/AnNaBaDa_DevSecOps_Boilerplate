@@ -28,24 +28,48 @@ class Variable():
             elif dict['tool']['name'] == 'gradle':
                 self.toolList.append("gradle")
 
+            elif dict['tool']['name'] == 'maven':
+                self.toolList.append("maven")
+
+            elif dict['tool']['name'] == 'jacoco':
+                self.pluginList.append("jacoco@3.3.0")
+                self.toolList.append("jacoco")
+
             elif dict['tool']['name'] == 'sonarqube':
                 self.toolList.append("sonarqube")
                 self.pluginList.append("sonar@2.13.1")
                 self.sonar_data = dict['tool']['data']
                 self.sonar_cred = dict['tool']['credential']
 
+            elif dict['tool']['name'] == 'snyk':
+                self.toolList.append("snyk")
+                self.pluginList.append("snyk-security-scanner@3.2.3")
+                self.snyk_data = dict['tool']['data']
+                self.snyk_cred = dict['tool']['credential']
+
             elif dict['tool']['name'] == 'dockerhub':
                 self.toolList.append("dockerhub")
                 self.pluginList.append("docker-plugin@1.2.3")
                 self.pluginList.append("docker-workflow@1.26")
                 self.dockerhub_data = dict['tool']['data']
-                self.dockerhub_cred = dict['tool']['credential'] 
+                self.dockerhub_cred = dict['tool']['credential']
+
+            elif dict['tool']['name'] == 'ecr':
+                self.toolList.append("ecr")
+                self.pluginList.append("amazon-ecr@1.6")
+                self.pluginList.append("pipeline-aws@1.43")
+                self.ecr_data = dict['tool']['data']
+                self.ecr_cred = dict['tool']['credential']
 
             elif dict['tool']['name'] == 'anchore':
                 self.toolList.append("anchore")
                 self.pluginList.append("anchore-container-scanner@1.0.23")
                 self.anchore_data = dict['tool']['data']
                 self.anchore_cred = dict['tool']['credential']
+
+            elif dict['tool']['name'] == 'trivy':
+                self.toolList.append("trivy") 
+                self.trivy_data = dict['tool']['data']
 
             elif dict['tool']['name'] == 'dependency':
                 self.toolList.append("dependency")
@@ -94,17 +118,32 @@ class Variable():
     def getSonarqubeCred(self):
         return self.sonar_cred
 
+    def getSnykData(self):
+        return self.snyk_data
+
+    def getSnykCred(self):
+        return self.snyk_cred
+
     def getDockerhubData(self):
         return self.dockerhub_data
     
     def getDockerhubCred(self):
         return self.dockerhub_cred
+
+    def getECRData(self):
+        return self.ecr_data
+
+    def getECRCred(self):
+        return self.ecr_cred
     
     def getAnchoreData(self):
         return self.anchore_data
     
     def getAnchoreCred(self):
         return self.anchore_cred
+    
+    def getTrivyData(self):
+        return self.trivy_data
 
     def getArgocdData(self):
         return self.argocd_data

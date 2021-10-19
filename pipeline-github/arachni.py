@@ -11,5 +11,4 @@ class Arachni:
                     }
                 }
             }
-        }
-        """%(self.__dict__['cred_id'], self.__dict__['masternode_url'], self.__dict__['node_url'], self.__dict__['masternode_url'])
+        }"""%(self.__dict__['cred_id'], self.__dict__['masternode_url'], self.__dict__['node_url'], self.__dict__['masternode_url'])

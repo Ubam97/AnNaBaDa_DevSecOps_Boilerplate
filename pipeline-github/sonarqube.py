@@ -18,15 +18,30 @@ class Sonarqube:
     def __init__(self, jenkins, **data):
         self.jenkins = jenkins
         self.__dict__.update(**data)
-        self.stage = """stage('SonarQube analysis') {
-            steps {
-                script {
-                    withSonarQubeEnv() {
-                        sh "./gradlew sonarqube"
+        if self.__dict__['tool'] == 'gradle':
+            self.stage = """
+            stage('SonarQube analysis') {
+                steps {
+                    script {
+                        withSonarQubeEnv() {
+                            sh "./gradlew sonarqube"
+                        }
                     }
                 }
-            }
-       }"""
+            }"""
+        
+        elif self.__dict__['tool'] == 'maven':
+            self.stage = """
+            stage('SonarQube analysis') {
+                steps {
+                    script {
+                        withSonarQubeEnv() {
+                            sh "./mvnw sonar:sonar"
+                        }
+                    }
+                }
+            }"""
+
 
     def createCredential(self):
         sonar_creds = self.jenkins.credentials

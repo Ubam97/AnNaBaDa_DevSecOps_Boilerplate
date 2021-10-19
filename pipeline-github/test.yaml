@@ -1,0 +1,85 @@
+- tool:
+    name: jenkins
+    data:
+      url: 54.180.155.86:8080
+      username: user
+      password: user
+
+- tool:
+    name: github
+    data:
+      url: https://github.com/Shin9184/mvn_test.git
+      username: Shin9184
+      reponame: mvn_test
+      token: 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
+    credential:
+      id: github_cred
+      description: github_cred_description
+    webhook:
+      events:
+       - push
+       - pull_request
+      contenttype: json
+      active: true
+
+- tool:
+    name: maven
+
+- tool:
+    name: jacoco
+
+- tool:
+    name: sonarqube
+    data:
+      url: 54.180.155.86:9000
+      token: 6f86d7c67c296d43d2bafd32e7584b662dd4e9e7
+    credential:
+      id: sonar_cred
+      description: sonar_cred_description
+
+- tool:
+    name: snyk
+    data:
+      token: 5713b67d-d1b5-48a4-bfd0-1165e27bac7f
+    credential:
+      id: snyk_cred
+      description: snyk_cred_description
+
+- tool:
+    name: dockerhub
+    data:
+      username: tlqkddk123
+      password: younzv520@
+      image: tlqkddk123/spring
+    credential:
+      id: dockerhub_cred
+      description: dockerhub_cred_description
+
+# - tool:
+#     name: ecr
+#     data:
+#       accesskey: AKIAW7C3JK2V2AEBBIIZ
+#       secretkey: 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
+#       account: 479080306347
+#       region: ap-northeast-2
+#       image: 479080306347.dkr.ecr.ap-northeast-2.amazonaws.com/dongsu
+#     credential:
+#       id: aws_cred
+#       description: aws_cred_description
+
+- tool:
+    name: anchore
+    data:
+      url: 54.180.155.86:8228/v1
+      username: admin
+      password: foobar
+      image: tlqkddk123/spring
+    credential:
+      id: anchore_cred
+      description: anchore_cred_description
+
+- tool:
+    name: trivy
+    data:
+      image: 479080306347.dkr.ecr.ap-northeast-2.amazonaws.com/dongsu
+    

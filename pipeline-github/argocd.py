@@ -18,7 +18,8 @@ class Argocd:
     def __init__(self, jenkins, **data):
         self.jenkins = jenkins
         self.__dict__.update(**data)
-        self.stage = """stage('ArgoCD Deploy') {
+        self.stage = """
+        stage('ArgoCD Deploy') {
             steps {
                 script {
                     sshagent (credentials: ['%s']) {

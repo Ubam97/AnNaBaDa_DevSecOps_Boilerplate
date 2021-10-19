@@ -1,4 +1,4 @@
-from jenkinsapi.credential import UsernamePasswordCredential
+from jenkinsapi.credential import AmazonWebServicesCredentials
 from xml.etree.ElementTree import parse
 import os
 
@@ -14,33 +14,33 @@ def copy_to_container(src, dest, filename):
     command="docker cp " + src + "/" + filename + " jenkins:" + dest
     os.system(command)
 
-class Dockerhub:
+class ECR:
     def __init__(self, jenkins, **data):
         self.jenkins = jenkins
         self.__dict__.update(**data)
         self.stage = """
-        stage('Dockerhub Push image') {
+        stage('ECR Push image') {
             steps {
                 script {
                     checkout scm
-                    docker.withRegistry('https://registry.hub.docker.com', '%s') {
+                    docker.withRegistry('https://%s.dkr.ecr.%s.amazonaws.com', 'ecr:%s:%s') {
                         def customImage = docker.build("%s")
                         customImage.push("${env.BUILD_ID}")
                         customImage.push("latest")
                     }
                 }
             }
-        }"""%(self.__dict__['cred_id'], self.__dict__['image'])
+        }"""%(self.__dict__['account'], self.__dict__['region'], self.__dict__['region'], self.__dict__['cred_id'], self.__dict__['image'])
 
     def createCredential(self):
         dockerhub_creds = self.jenkins.credentials
         cred_dict = {
             'description': self.__dict__['cred_description'],
             'credential_id': self.__dict__['cred_id'],
-            'userName': self.__dict__['username'],
-            'password': self.__dict__['password']
+            'accessKey': self.__dict__['accesskey'],
+            'secretKey': self.__dict__['secretkey']
         }
-        dockerhub_creds[self.__dict__['cred_description']] = UsernamePasswordCredential(cred_dict)
+        dockerhub_creds[self.__dict__['cred_description']] = AmazonWebServicesCredentials(cred_dict)
     
     
     

@@ -22,8 +22,8 @@ class Dependency:
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
                 dependencyCheck additionalArguments: '-s "./" -f "HTML" -o "./" --prettyPrint', odcInstallation: 'dependency'
             }
-        }
-        """
+        }"""
+
     def dependencyConfigure(self, dependency_jenkins_configname, dependency_version):
         xml_modify("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/jenkins_config/org.jenkinsci.plugins.DependencyCheck.DependencyCheckToolBuilder.xml", name=dependency_jenkins_configname, id=dependency_version)
         copy_to_container("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/jenkins_config", "/var/jenkins_home", "org.jenkinsci.plugins.DependencyCheck.DependencyCheckToolBuilder.xml")

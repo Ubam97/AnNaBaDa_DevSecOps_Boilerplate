@@ -2,10 +2,15 @@ from github import Github
 from gitlab import Gitlab
 from slack import Slack
 from gradle import Gradle
+from maven import Maven
+from jacoco import Jacoco
 from sonarqube import Sonarqube
+from snyk import Snyk
 from dockerhub import Dockerhub
+from ecr import ECR
 from dependency import Dependency
 from anchore import Anchore
+from trivy import Trivy
 from argocd import Argocd
 from arachni import Arachni
 from variable import Variable
@@ -137,7 +142,7 @@ elif len(sys.argv) == 3:
         else:
             print("not exist slack tool in yaml!")
 
-        # 3. Gradle
+        # 3-1. Gradle
         if "gradle" in toolList:
             gradle_jenkins_configname = "gradle"
             gradle_version = "6.9.1"
@@ -146,8 +151,33 @@ elif len(sys.argv) == 3:
             gradle.gradleConfigure(gradle_jenkins_configname, gradle_version)
             stages.append(gradle.__dict__['stage'])
             print("Complete Gradle Configuration")
+
+            if "jacoco" in toolList:
+                jacoco = Jacoco(tool="gradle")
+                stages.append(jacoco.__dict__['stage'])
+                print("Complete Jacoco Configuration")
+
         else:
             print("not exist gradle in yaml!")
+
+        # 3-2. Maven
+        if "maven" in toolList:
+            maven_jenkins_configname = "maven" 
+            maven_version = "3.8.3"
+            # 3-1. Gradle configuration in jenkins server
+            maven = Maven()
+            maven.mavenConfigure(maven_jenkins_configname, maven_version)
+            stages.append(maven.__dict__['stage'])
+            print("Complete Maven Configuration")
+
+            if "maven" in toolList and "jacoco" in toolList:
+                jacoco = Jacoco(tool="maven")
+                stages.append(jacoco.__dict__['stage'])
+                print("Complete Jacoco Configuration")
+
+        else:
+            print("not exist maven in yaml!")
+        
 
         # 4. Sonarqube (with Gradle build)
         if "sonarqube" in toolList and "gradle" in toolList:
@@ -170,7 +200,35 @@ elif len(sys.argv) == 3:
 
             # 4-1. Create sonarqube credential in jenkins server
             sonarqube = Sonarqube(jenkins, token=var.getSonarqubeData()['token'], cred_id=var.getSonarqubeCred()[
-                                  'id'], cred_description=var.getSonarqubeCred()['description'], url=sonar_serverurl)
+                                  'id'], cred_description=var.getSonarqubeCred()['description'], url=sonar_serverurl, tool="gradle")
+            sonarqube.createCredential()
+
+            # 4-2. Sonarserver and Sonarscanner configuration in jenkins server
+            sonarqube.sonarqubeConfigure(
+                sonar_servername, sonar_scanner_name, sonar_scanner_version)
+
+            stages.append(sonarqube.__dict__['stage'])
+            print("Complete Sonarqube Configuration")
+
+        elif "sonarqube" in toolList and "maven" in toolList:
+            # Add the following to your pom.xml file
+            """
+            <plugins>
+                    <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>sonar-maven-plugin</artifactId>
+                    </plugin>
+            </plugins>
+            """
+
+            sonar_serverurl = "http://{}".format(var.getSonarqubeData()['url'])
+            sonar_servername = "SonarServer"
+            sonar_scanner_name = "SonarScanner"
+            sonar_scanner_version = "4.6.2.2472"
+
+            # 4-1. Create sonarqube credential in jenkins server
+            sonarqube = Sonarqube(jenkins, token=var.getSonarqubeData()['token'], cred_id=var.getSonarqubeCred()[
+                                  'id'], cred_description=var.getSonarqubeCred()['description'], url=sonar_serverurl, tool="maven")
             sonarqube.createCredential()
 
             # 4-2. Sonarserver and Sonarscanner configuration in jenkins server
@@ -185,6 +243,20 @@ elif len(sys.argv) == 3:
         else:
             print("not exist sonarqube in yaml!")
 
+        # Snyk
+        if "snyk" in toolList:
+            snyk_jenkins_configname = "snyk" 
+            snyk_version = "latest"
+            snyk_update_hours = "24"
+
+            snyk = Snyk(jenkins,token=var.getSnykData()['token'], cred_id=var.getSnykCred()['id'], cred_description=var.getSnykCred()['description'])
+            # snyk.createCredential()
+            # snyk.snykConfigure(snyk_jenkins_configname, snyk_version, snyk_update_hours)
+            stages.append(snyk.__dict__['stage'])
+            print("Complete Snyk Configuration")
+        else:
+            print("not exists snyk in yaml!")
+
         # Dependency
         if "dependency" in toolList:
             dependency_jenkins_configname = "dependency"
@@ -197,13 +269,14 @@ elif len(sys.argv) == 3:
         else:
             print("not exists dependency in yaml!")
 
-        # 5 Dockerhub
+        # 5-1 Dockerhub
 
         # 5-1. Create dockerhub credential with username, password
         if "dockerhub" in toolList:
             dockerhub = Dockerhub(jenkins, cred_id=var.getDockerhubCred()['id'], cred_description=var.getDockerhubCred()[
                                   'description'], username=var.getDockerhubData()['username'], password=var.getDockerhubData()['password'], image=var.getDockerhubData()['image'])
             dockerhub.createCredential()
+            
 
             # 5-2. Create Dockerfile in git repository for docker image build. (You can fix it as you want.)
             # It's based on jdk version 11.
@@ -215,12 +288,21 @@ elif len(sys.argv) == 3:
             } 
             """
 
-            dockerfile = """FROM openjdk:11-jdk-slim
-            ARG JAR_FILE=build/libs/*.jar
-            COPY ${JAR_FILE} myspring.jar
-            ENTRYPOINT ["java", "-jar", "/myspring.jar"]"""
+            if 'gradle' in toolList:
+                dockerfile = """FROM openjdk:11-jdk-slim
+                ARG JAR_FILE=build/libs/*.jar
+                COPY ${JAR_FILE} myspring.jar
+                ENTRYPOINT ["java", "-jar", "/myspring.jar"]"""
 
-            content = stringToBase64(dockerfile)
+                content = stringToBase64(dockerfile)
+
+            elif 'maven' in toolList:
+                dockerfile = """FROM openjdk:11-jdk-slim
+                ARG JAR_FILE=target/*.jar
+                COPY ${JAR_FILE} myspring.jar
+                ENTRYPOINT ["java", "-jar", "/myspring.jar"]"""
+
+                content = stringToBase64(dockerfile)
 
             # if SCM tool is Github:
             if "github" in toolList:
@@ -262,17 +344,100 @@ elif len(sys.argv) == 3:
         else:
             print("not exist dockerhub in yaml!!")
 
+        # 5-2 ECR
+        if "ecr" in toolList:
+            ecr = ECR(jenkins, cred_id=var.getECRCred()['id'], cred_description=var.getECRCred()[
+                                  'description'], accesskey=var.getECRData()['accesskey'], secretkey=var.getECRData()['secretkey'], account=var.getECRData()['account'], region=var.getECRData()['region'], image=var.getECRData()['image'])
+            ecr.createCredential()
+
+            if 'gradle' in toolList:
+                dockerfile = """FROM openjdk:11-jdk-slim
+                ARG JAR_FILE=build/libs/*.jar
+                COPY ${JAR_FILE} myspring.jar
+                ENTRYPOINT ["java", "-jar", "/myspring.jar"]"""
+
+                content = stringToBase64(dockerfile)
+
+            elif 'maven' in toolList:
+                dockerfile = """FROM openjdk:11-jdk-slim
+                ARG JAR_FILE=target/*.jar
+                COPY ${JAR_FILE} myspring.jar
+                ENTRYPOINT ["java", "-jar", "/myspring.jar"]"""
+
+                content = stringToBase64(dockerfile)
+
+            # if SCM tool is Github:
+            if "github" in toolList:
+                github_requesturl = "https://api.github.com/repos/{}/{}/contents/Dockerfile".format(
+                    var.getGithubData()['username'], var.getGithubData()['reponame'])
+                body = {
+                    "message": "create a default dockerfile",
+                    "content": content
+                }
+                github = Github(jenkins, token=var.getGithubData()['token'], cred_id=var.getGithubCred()[
+                                'id'], cred_description=var.getGithubCred()['description'], url=var.getGithubData()['url'])
+                response = github.call_api("PUT", github_requesturl, body)
+                if response.status_code == 201:
+                    print("Created dockerfile in Github repository")
+                else:
+                    print("Already exists dockerfile in Github repository or Unexpected Error")
+                stages.append(ecr.__dict__['stage'])
+                print("Complete ECR Configuration")
+            
+            # if SCM tool is Gitlab:
+            elif "gitlab" in toolList:
+                filepath = "Dockerfile"
+                enc_filepath = urllib.parse.quote(filepath, safe="")
+                print(enc_filepath)
+                url = "https://gitlab.com/api/v4/projects/{}/repository/files/{}".format(str(var.getGitlabData()['projectid']), enc_filepath)
+                body = {
+                    "branch": "main",
+                    "content": dockerfile,
+                    "commit_message": "create file by api"
+                }
+                response = gitlab.call_api("POST", url, body)
+                if response.status_code == 201:
+                    print("Created dockerfile in Gitlab repository")
+                else:
+                    print("Already exists dockerfile in Gitlab repository or Unexpected Error")
+                stages.append(ecr.__dict__['stage'])
+                print("Complete ECR Configuration")
+
+        else:
+            print("not exist ECR in yaml!!")
+
         # Anchore
-        if "anchore" in toolList:
+        if "anchore" in toolList and "dockerhub" in toolList:
             anchore_url = "http://{}".format(var.getAnchoreData()['url'])
-            anchore = Anchore(jenkins, cred_id=var.getAnchoreCred()['id'], cred_description=var.getAnchoreCred()[
-                              'description'], url=anchore_url, username=var.getAnchoreData()['username'], password=var.getAnchoreData()['password'], image=var.getAnchoreData()['image'])
+            anchore = Anchore(jenkins, tool="dockerhub", cred_id=var.getAnchoreCred()['id'], cred_description=var.getAnchoreCred()['description'], url=anchore_url, username=var.getAnchoreData()['username'], password=var.getAnchoreData()['password'], image=var.getAnchoreData()['image'])
+            anchore.anchoreConfigure()
+            anchore.createCredential()
+            stages.append(anchore.__dict__['stage'])
+            print("Complete Anchore Configuration")
+            
+        elif "anchore" in toolList and "ecr" in toolList:
+            anchore_url = "http://{}".format(var.getAnchoreData()['url'])
+            anchore = Anchore(jenkins, tool="ecr", region=var.getECRData()['region'], account=var.getECRData()['account'], cred_id=var.getAnchoreCred()['id'], cred_description=var.getAnchoreCred()['description'], url=anchore_url, username=var.getAnchoreData()['username'], password=var.getAnchoreData()['password'], image=var.getAnchoreData()['image'])
             anchore.anchoreConfigure()
             anchore.createCredential()
             stages.append(anchore.__dict__['stage'])
             print("Complete Anchore Configuration")
         else:
             print("not exits anchore in yaml!")
+            
+        # Trivy
+        if "trivy" in toolList and "dockerhub" in toolList:
+            trivy = Trivy(jenkins, tool="dockerhub", image=var.getTrivyData()['image'])
+            stages.append(trivy.__dict__['stage'])
+            print("Complete Trivy Configuration")
+        elif "trivy" in toolList and "ecr" in toolList:
+            trivy = Trivy(jenkins, tool="ecr", image=var.getTrivyData()['image'], region=var.getECRData()['region'], account=var.getECRData()['account'])
+            stages.append(trivy.__dict__['stage'])
+            print("Complete Trivy Configuration")
+
+        else:
+            print("not exits trivy in yaml!")
+
 
         # 6. ArgoCD
         if "argocd" in toolList:
@@ -420,6 +585,25 @@ spec:
             pipelineScript = "jenkinsfile"
             pipelineName = "PIPELINEJOB"
             stages = '\n\t'.join(stages)
+
+            # if "maven" in toolList:
+            #     jenkinsfile = """pipeline {
+            #     agent any
+            #     tools {
+            #         maven 'maven'
+            #     }
+            #     stages {
+            #         %s
+            #     }
+            # }""" % (stages)
+            # else :
+            #     jenkinsfile = """pipeline {
+            #     agent any
+            #     stages {
+            #         %s
+            #     }
+            # }""" % (stages)
+
             jenkinsfile = """pipeline {
                 agent any
                 stages {

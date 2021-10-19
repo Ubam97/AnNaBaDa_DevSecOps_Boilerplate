@@ -15,7 +15,8 @@ def copy_to_container(src, dest, filename):
 
 class Gradle:
     def __init__(self):
-        self.stage = """stage('Gradle Junit Test') {
+        self.stage = """
+        stage('Gradle Junit Test') {
             steps {
                 sh 'chmod +x ./gradlew'
                 sh "chmod +x gradlew; ./gradlew test"

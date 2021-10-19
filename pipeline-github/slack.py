@@ -18,11 +18,12 @@ class Slack:
     def __init__(self, jenkins, **data):
         self.jenkins = jenkins
         self.__dict__.update(**data)
-        self.stage = """stage('Slack Notification') {
-                steps {
-                    slackSend (channel: '#%s', color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-                }
-            }"""%(self.__dict__['channel'])
+        self.stage = """
+        stage('Slack Notification') {
+            steps {
+                slackSend (channel: '#%s', color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }"""%(self.__dict__['channel'])
 
     def createCredential(self):
         slack_creds = self.jenkins.credentials

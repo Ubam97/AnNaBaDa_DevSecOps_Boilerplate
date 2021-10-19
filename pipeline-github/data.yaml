@@ -36,6 +36,12 @@
     name: gradle
 
 - tool:
+    name: maven
+
+- tool:
+    name: jacoco
+
+- tool:
     name: sonarqube
     data:
       url: # your sonarqube url, ex) 1.2.3.4:9000
@@ -43,6 +49,14 @@
     credential:
       id: sonar_cred
       description: sonar_cred_description
+
+- tool:
+    name: snyk
+    data:
+      token: 5713b67d-d1b5-48a4-bfd0-1165e27bac7f # your snyk auth token, ex) abcd-wqb2-...
+    credential:
+      id: snyk_cred
+      description: snyk_cred_description
 
 - tool:
     name: dockerhub
@@ -55,15 +69,32 @@
       description: dockerhub_cred_description
 
 - tool:
+    name: ecr
+    data:
+      accesskey: AKIAW7C3JK2V2AEBBIIZ # your AWS accesskey ex ) abcd...
+      secretkey: q6PezOgrQ+w929KuFNM1/DCFnH0azBrBZx0FZczA # # your AWS secretkey ex ) zyx...
+      account: 479080306347 # your AWS account number
+      region: ap-northeast-2 # your AWS region
+      image: 479080306347.dkr.ecr.ap-northeast-2.amazonaws.com/dongsu # your repositories url
+    credential:
+      id: aws_cred
+      description: aws_cred_description
+
+- tool:
     name: anchore
     data:
       url: # your anchore url, ex) 1.2.3.4:8228/v1
       username: # your anchore username, ex) admin (anchore initial username)
       password: # your anchore password, ex) foobar (anchore initial password)
-      image: # your dockerhub image, ex) username/test  ..... I'll delete this part later...  
+      image: # your dockerhub or ecr image, ex) username/test  ..... I'll delete this part later...  
     credential:
       id: anchore_cred
       description: anchore_cred_description
+
+- tool:
+    name: trivy
+    data:
+      image: 479080306347.dkr.ecr.ap-northeast-2.amazonaws.com/dongsu # your dockerhub or ecr image, ex) username/test  ..... I'll delete this part later...  
 
 - tool:
     name: dependency
@@ -82,6 +113,15 @@
       description: argocd_cred_description
 
 - tool:
+    name: flux
+    
+
+- tool:
     name: arachni
     data:
       url: # Enter the url of the node deployed in argocd. # If there is no url deployed yet, leave it as an empty value, and add the deployed node url to jenkinsfile later.
+
+- tool:
+    name: nikto
+    data:
+      url: 
