@@ -75,6 +75,9 @@ RUN apt-get update && apt-get -y install software-properties-common && \
     apt-add-repository 'deb http://repos.azulsystems.com/ubuntu stable main' && \
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xB1998361219BD9C9 && \
     apt-get update && apt-get -y install zulu-11
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    unzip awscliv2.zip
+    sudo ./aws/install
 RUN usermod -aG docker jenkins
 
 ##Jenkins/docker-compose.yaml
