@@ -136,31 +136,31 @@ plugins {
 **Warning :  Please edit "Pom.xml". -maven build **
 
 ```pom.xml
-<plugin>
-            	<groupId>org.jacoco</groupId>
-            	<artifactId>jacoco-maven-plugin</artifactId>
-            	<version>0.8.5</version>
-            	<executions>
-                	<execution>
-                    	<id>jacoco-initialize</id>
-                    	<goals>
-                        	<goal>prepare-agent</goal>
-                    	</goals>
-                	</execution>
-                	<execution>
-                	    <id>jacoco-site</id>
-                	    <phase>test</phase>
-                	    <goals>
-                	        <goal>report</goal>
-                	    </goals>
-                	</execution>
-            	</executions>
+		<plugin>
+            		<groupId>org.jacoco</groupId>
+            		<artifactId>jacoco-maven-plugin</artifactId>
+            		<version>0.8.5</version>
+            		<executions>
+                		<execution>
+                    		<id>jacoco-initialize</id>
+                    		<goals>
+                        		<goal>prepare-agent</goal>
+                    		</goals>
+                		</execution>
+                		<execution>
+                	    	<id>jacoco-site</id>
+                	    	<phase>test</phase>
+                	    	<goals>
+                	        	<goal>report</goal>
+                	    	</goals>
+                		</execution>
+            		</executions>
         	</plugin>
 ```
 
 
 
-## 4. SonarQube
+## 5. SonarQube
 
 **Additionally, depending on the sonarqube version, it may need to be modified.**
 
@@ -254,7 +254,7 @@ sonarqube {
 
 ---
 
-## 5. Anchore
+## 6. Anchore
 
 ```bash
 ##Anchore Engine Install
@@ -281,7 +281,7 @@ PATH="$HOME/.local/bin/:$PATH"
 
 **Cloud Platform = AWS, Instance=t2.large OS=Amazon linux**
 
-## 6. ArgoCD(Deploy Tool)
+## 7. ArgoCD(Deploy Tool)
 **You must log in first in the CLI environment.**
 
 ```bash
@@ -309,7 +309,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 
 ---
 
-## 7. Arachni
+## 8. Arachni
 
 You can install it on the path you want.
 
@@ -325,7 +325,7 @@ bundle install
 
 ---
 
-## 8. Prometheus & Grafana(Monitoring)
+## 9. Prometheus & Grafana(Monitoring)
 **Grafana can log in and get the graph you want and monitor it.**
 
 Installation was carried out with Helm chart.
