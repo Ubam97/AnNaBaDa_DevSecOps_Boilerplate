@@ -122,6 +122,44 @@ test {
 }
 ```
 
+## 4. Jacoco Setting
+
+
+**Warning :  Please edit "build.gradle". -Gradle build **
+
+```build.gradle
+plugins {
+    id 'jacoco'
+}
+```
+
+**Warning :  Please edit "Pom.xml". -maven build **
+
+```pom.xml
+<plugin>
+            	<groupId>org.jacoco</groupId>
+            	<artifactId>jacoco-maven-plugin</artifactId>
+            	<version>0.8.5</version>
+            	<executions>
+                	<execution>
+                    	<id>jacoco-initialize</id>
+                    	<goals>
+                        	<goal>prepare-agent</goal>
+                    	</goals>
+                	</execution>
+                	<execution>
+                	    <id>jacoco-site</id>
+                	    <phase>test</phase>
+                	    <goals>
+                	        <goal>report</goal>
+                	    </goals>
+                	</execution>
+            	</executions>
+        	</plugin>
+```
+
+
+
 ## 4. SonarQube
 
 **Additionally, depending on the sonarqube version, it may need to be modified.**
