@@ -115,7 +115,7 @@
 - tool:
     name: flux
     data:
-      username: # your argocd username, ex) admin
+      username: # your flux username, ex) admin
       url: # your eks master node url where installed argocd, ex) 1.2.3.4
       ssh_key: |
         -----BEGIN RSA PRIVATE KEY-----
