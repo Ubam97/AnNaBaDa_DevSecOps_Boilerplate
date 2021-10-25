@@ -49,6 +49,9 @@
     credential:
       id: sonar_cred
       description: sonar_cred_description
+      
+- tool:
+    name: dependency
 
 - tool:
     name: snyk
@@ -97,9 +100,6 @@
       image: # your dockerhub or ecr image, ex) username/test  ..... I'll delete this part later...  
 
 - tool:
-    name: dependency
-
-- tool:
     name: argocd
     data:
       username: # your argocd username, ex) admin
@@ -109,11 +109,21 @@
         your eks master node ssh key, pem file
         -----END RSA PRIVATE KEY-----
     credential:
-      id: argocd
+      id: argocd_cred
       description: argocd_cred_description
 
 - tool:
     name: flux
+    data:
+      username: # your argocd username, ex) admin
+      url: # your eks master node url where installed argocd, ex) 1.2.3.4
+      ssh_key: |
+        -----BEGIN RSA PRIVATE KEY-----
+        your eks master node ssh key, pem file
+        -----END RSA PRIVATE KEY-----
+    credential:
+      id: flux_cred
+      description: flux_cred_description
     
 
 - tool:
@@ -124,4 +134,5 @@
 - tool:
     name: nikto
     data:
-      url: 
+      url: # Enter the url of the node deployed in argocd. # If there is no url deployed yet, leave it as an empty value, and add the deployed node url to jenkinsfile later.
+
