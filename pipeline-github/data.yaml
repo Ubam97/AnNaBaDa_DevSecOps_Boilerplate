@@ -125,7 +125,6 @@
       id: flux_cred
       description: flux_cred_description
     
-
 - tool:
     name: arachni
     data:
