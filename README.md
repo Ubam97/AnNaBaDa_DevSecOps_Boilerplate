@@ -8,7 +8,7 @@ CCCR Project
 
 ---
 
-**Warning :  Cloud Platform = AWS, Instance=t2.large OS=Ubuntu 20.04LTS**
+**Warning :  Cloud Platform = AWS, Instance=t2.xlarge(xlarge or larger recommended) OS=Ubuntu 20.04LTS**
 
 **Warning : You can only use the gradie project for this pipeline.**
 
