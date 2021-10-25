@@ -444,7 +444,7 @@ kubectl get svc
 ## 10. EFK Stack Install
 **After installation, you can set it to the setting you want.**
 
--Edit elasticsearch.yaml
+- Edit elasticsearch.yaml
 
 ```elasticsearch.yaml
 apiVersion: apps/v1
