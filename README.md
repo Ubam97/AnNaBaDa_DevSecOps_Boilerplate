@@ -81,12 +81,12 @@ RUN apt-get update && apt-get -y install software-properties-common && \
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xB1998361219BD9C9 && \
     apt-get update && apt-get -y install zulu-11
 RUN usermod -aG docker jenkins
-## trivy Install
+**## trivy Install**
 RUN apt-get -y install wget
 RUN apt-get -y install rpm
 RUN wget https://github.com/aquasecurity/trivy/releases/download/v0.20.1/trivy_0.20.1_Linux-64bit.deb
 RUN dpkg -i trivy_0.20.1_Linux-64bit.deb
-## Nikto Install
+**## Nikto Install**
 RUN git clone https://github.com/sullo/nikto
 
 ##Jenkins/docker-compose.yaml
@@ -114,7 +114,7 @@ docker-compose up -d
 
 ## 3. Junit Setting
 
-**Warning :  Please edit "build.gradle".**
+**Warning :  Please edit "build.gradle". -Gradle build **
 
 ```makefile
 test {
@@ -122,11 +122,7 @@ test {
 }
 ```
 
----
-
 ## 4. SonarQube
-
-**Warning :  Please edit "build.gradle".**
 
 **Additionally, depending on the sonarqube version, it may need to be modified.**
 
@@ -190,6 +186,7 @@ networks:
 docker-compose up -d
 ```
 
+**Warning :  Please edit "build.gradle"-Gradle build.**
 ```makefile
 ##example "build.gradle"
 plugins {
@@ -201,6 +198,16 @@ sonarqube {
 		property "sonar.projectKey", "sonar_test"
 	}
 }
+```
+
+**Warning :  Please edit "pom.xml.-Maven build.**
+```pom.xml
+		<plugins>
+                    <plugin>
+                    	<groupId>org.codehaus.mojo</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                    </plugin>
+            	</plugins>
 ```
 
 **How to link dependency check in sonarquube**
