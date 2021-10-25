@@ -441,6 +441,217 @@ kubectl get svc
       type: LoadBalancer --- Please fix it.
     ```
 
+## 10. EFK Stack Install
+**After installation, you can set it to the setting you want.**
+
+-Edit elasticsearch.yaml
+
+```elasticsearch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch
+  namespace: elastic
+  labels:
+    app: elasticsearch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      containers:
+      - name: elasticsearch
+        image: elastic/elasticsearch:7.14.1
+        env:
+        - name: discovery.type
+          value: single-node
+        ports:
+        - containerPort: 9200
+        - containerPort: 9300
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: elasticsearch
+  name: elasticsearch-svc
+  namespace: elastic
+spec:
+  ports:
+  - name: elasticsearch-rest
+    nodePort: 30920
+    port: 9200
+    protocol: TCP
+    targetPort: 9200
+  - name: elasticsearch-nodecom
+    nodePort: 30930
+    port: 9300
+    protocol: TCP
+    targetPort: 9300
+  selector:
+    app: elasticsearch
+  type: LoadBalancer
+  ```
+  
+  - Edit fluentd.yaml
+ 
+ ```fluentd.yaml
+ ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: fluentd
+  namespace: kube-system
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: fluentd
+  namespace: kube-system
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - namespaces
+  verbs:
+  - get
+  - list
+  - watch
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: fluentd
+roleRef:
+  kind: ClusterRole
+  name: fluentd
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: ServiceAccount
+  name: fluentd
+  namespace: kube-system
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd
+  namespace: kube-system
+  labels:
+    k8s-app: fluentd-logging
+    version: v1
+spec:
+  selector:
+    matchLabels:
+      k8s-app: fluentd-logging
+      version: v1
+  template:
+    metadata:
+      labels:
+        k8s-app: fluentd-logging
+        version: v1
+    spec:
+      serviceAccount: fluentd
+      serviceAccountName: fluentd
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: fluentd
+        image: fluent/fluentd-kubernetes-daemonset:v1-debian-elasticsearch
+        env:
+        - name:  FLUENT_ELASTICSEARCH_HOST
+          value: elasticsearch-svc.elastic
+        - name:  FLUENT_ELASTICSEARCH_PORT
+          value: "9200"
+        - name: FLUENT_ELASTICSEARCH_SCHEME
+          value: http
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log
+        - name: varlibdockercontainers
+          mountPath: /var/lib/docker/containers
+          readOnly: true
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: varlog
+        hostPath:
+          path: /var/log
+      - name: varlibdockercontainers
+        hostPath:
+          path: /var/lib/docker/containers
+```
+
+- Edit kibana.yaml
+
+```kibana.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+  namespace: elastic
+  labels:
+    app: kibana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kibana
+  template:
+    metadata:
+      labels:
+        app: kibana
+    spec:
+      containers:
+      - name: kibana
+        image: elastic/kibana:7.14.1
+        env:
+        - name: SERVER_NAME
+          value: kibana.kubenetes.example.com
+        - name: ELASTICSEARCH_HOSTS
+          value: http://elasticsearch-svc:9200
+        ports:
+        - containerPort: 5601
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: kibana
+  name: kibana-svc
+  namespace: elastic
+spec:
+  ports:
+  - nodePort: 30561
+    port: 5601
+    protocol: TCP
+    targetPort: 5601
+  selector:
+    app: kibana
+  type: LoadBalancer
+  ```
+  
+  - Edit Namespace.yaml
+```Namespace.yaml
+  apiVersion: v1
+kind: Namespace
+metadata:
+  name: elastic
+```
+
 <br/>
 <br/>
 <br/>
