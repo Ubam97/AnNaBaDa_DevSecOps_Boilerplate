@@ -652,6 +652,12 @@ metadata:
   name: elastic
 ```
 
+**Install Command**
+```
+kubectl apply -f efk/*
+
+```
+
 <br/>
 <br/>
 <br/>
