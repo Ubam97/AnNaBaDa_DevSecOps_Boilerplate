@@ -50,7 +50,7 @@ sudo chmod 666 /var/run/docker.sock
 ```
 ---
 
-## 2. Jenkins
+## 2. Jenkins & Triby & Nikto Install
 
 **Plug-in installation list.**
 
@@ -59,6 +59,11 @@ sudo chmod 666 /var/run/docker.sock
 - SonarQube Scanner
 - OWASP Dependency-Check Plugin
 - SSH Agent Plugin
+- Gitlab
+- Github
+- Amazon ECR plugin
+- Pipeline: AWS Steps
+- Snyk Security Plugin
 
 ```bash
 ##Jenkins Dockerfile
