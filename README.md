@@ -75,10 +75,14 @@ RUN apt-get update && apt-get -y install software-properties-common && \
     apt-add-repository 'deb http://repos.azulsystems.com/ubuntu stable main' && \
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xB1998361219BD9C9 && \
     apt-get update && apt-get -y install zulu-11
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    unzip awscliv2.zip
-    sudo ./aws/install
 RUN usermod -aG docker jenkins
+## trivy Install
+RUN apt-get -y install wget
+RUN apt-get -y install rpm
+RUN wget https://github.com/aquasecurity/trivy/releases/download/v0.20.1/trivy_0.20.1_Linux-64bit.deb
+RUN dpkg -i trivy_0.20.1_Linux-64bit.deb
+## Nikto Install
+RUN git clone https://github.com/sullo/nikto
 
 ##Jenkins/docker-compose.yaml
 version: '3.7' 
