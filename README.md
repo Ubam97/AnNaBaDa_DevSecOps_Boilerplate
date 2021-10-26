@@ -81,6 +81,10 @@ RUN apt-get update && apt-get -y install software-properties-common && \
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xB1998361219BD9C9 && \
     apt-get update && apt-get -y install zulu-11
 RUN usermod -aG docker jenkins
+**##anchore-cli Install**
+RUN apt-get update 
+RUN apt-get install python3-pip
+RUN pip3 install anchorecli
 **## trivy Install**
 RUN apt-get -y install wget
 RUN apt-get -y install rpm
