@@ -260,7 +260,14 @@ sonarqube {
 
 ---
 
-## 6. Anchore
+## 6. ECR
+
+**We support ECR, too. You have to make it for use.**
+![image](https://user-images.githubusercontent.com/88227041/138834257-b9dd1dc2-de9a-4dcf-a6ae-95fbada68121.png)
+![image](https://user-images.githubusercontent.com/88227041/138834556-b350134f-156b-4ec0-8d17-7c6725d89526.png)
+---
+
+## 7. Anchore
 
 ```bash
 ##Anchore Engine Install
@@ -280,15 +287,7 @@ PATH="$HOME/.local/bin/:$PATH"
 
 ---
 
-**Warning :  We installed the tools below on the EKS-Cluster control plane (master node).**
-
-**Please refer to the Terraform item for EKS-CLUSTER environment construction.**
-[EKS-Cluster Buid it](https://github.com/eub456/AnNaBaDa_DevSecOps_Boilerplate/tree/main/terraform-eks#readme)
-
-**Cloud Platform = AWS, Instance=t2.large OS=Amazon linux**
-
-
-## 7. Snyk Setting
+## 8. Snyk Setting
 **Add apitoken issued by snyk to Jenkins.**
 
 1. Jenkins → Global tool configuration
@@ -298,9 +297,16 @@ PATH="$HOME/.local/bin/:$PATH"
 3. create jenkins credential
 ![image](https://user-images.githubusercontent.com/88227041/138831887-c529e29a-3d42-40a9-b37f-10618de4a93f.png)
 
+---
 
+**Warning :  We installed the tools below on the EKS-Cluster control plane (master node).**
 
-## 8. ArgoCD(Deploy Tool)
+**Please refer to the Terraform item for EKS-CLUSTER environment construction.**
+[EKS-Cluster Buid it](https://github.com/eub456/AnNaBaDa_DevSecOps_Boilerplate/tree/main/terraform-eks#readme)
+
+**Cloud Platform = AWS, Instance=t2.large OS=Amazon linux**
+
+## 9. ArgoCD(Deploy Tool)
 **You must log in first in the CLI environment.**
 
 ```bash
@@ -317,24 +323,18 @@ export ARGOCD_SERVER=`kubectl get svc argocd-server -n argocd -o json | jq --raw
 
 ##Argocd Simple setting.
 ARGO_PWD=`kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
-argocd login $ARGOCD_SERVER --username admin --password $ARGO_PWD --insecure #Argocd login
+aargocd login $ARGOCD_SERVER --username admin --password $ARGO_PWD --insecure #Argocd login
 
 ##Argocd External-IP Check
 kubectl get svc -n argocd argocd-server
 
 ##Argocd Default password Check
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
-
-##Argocd Changing the password
-argocd account update-password
-*** Enter current password:
-*** Enter new password:
-*** Confirm new password:
 ```
 
 ---
 
-## 9. Arachni
+## 10. Arachni
 
 You can install it on the path you want.
 
@@ -350,7 +350,7 @@ bundle install
 
 ---
 
-## 10. Prometheus & Grafana(Monitoring)
+## 11. Prometheus & Grafana(Monitoring)
 **Grafana can log in and get the graph you want and monitor it.**
 
 Installation was carried out with Helm chart.
@@ -466,7 +466,7 @@ kubectl get svc
       type: LoadBalancer --- Please fix it.
     ```
 
-## 11. EFK Stack Install
+## 12. EFK Stack Install
 **After installation, you can set it to the setting you want.**
 
 - Edit elasticsearch.yaml
