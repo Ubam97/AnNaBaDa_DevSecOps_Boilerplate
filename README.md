@@ -283,6 +283,12 @@ PATH="$HOME/.local/bin/:$PATH"
 
 **Cloud Platform = AWS, Instance=t2.large OS=Amazon linux**
 
+
+## 7. Snyk Setting
+**Add apitoken issued by snyk to Jenkins.**
+
+
+
 ## 7. ArgoCD(Deploy Tool)
 **You must log in first in the CLI environment.**
 
