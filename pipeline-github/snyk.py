@@ -1,4 +1,3 @@
-# from jenkinsapi.credential import SnykAPITokenCredential
 from xml.etree.ElementTree import parse
 import os
 
@@ -28,14 +27,7 @@ class Snyk:
             }
         }"""%(self.__dict__['cred_id'])
     
-    # def createCredential(self):
-    #     snyk_creds = self.jenkins.credentials
-    #     cred_dict = {
-    #         'credential_id': self.__dict__['cred_id'],
-    #         'description': self.__dict__['cred_description'],
-    #         'token': self.__dict__['token']
-    #     }
-    #     snyk_creds[self.__dict__['cred_description']] = SnykAPITokenCredential(cred_dict)
+
 
     def snykConfigure(self, snyk_jenkins_configname, snyk_version, snyk_update_hours):
         xml_modify("/home/ec2-user/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github/jenkins_config/io.snyk.jenkins.SnykStepBuilder.xml", name=snyk_jenkins_configname, version=snyk_version, updatePolicyIntervalHours=snyk_update_hours)

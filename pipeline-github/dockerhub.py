@@ -23,7 +23,7 @@ class Dockerhub:
             steps {
                 script {
                     checkout scm
-                    docker.withRegistry('https://registry.hub.docker.com', '%s') {
+                    docker.withRegistry('', '%s') {
                         def customImage = docker.build("%s")
                         customImage.push("${env.BUILD_ID}")
                         customImage.push("latest")

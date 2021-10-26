@@ -3,7 +3,7 @@ class Jacoco:
         self.__dict__.update(**data)
         if self.__dict__['tool'] == 'maven':
             self.stage = """
-            stage('Jacoco') {
+            stage('Jacoco Test') {
                 steps {
                     jacoco execPattern: 'target/**.exec', runAlways: true
                 }
@@ -11,8 +11,8 @@ class Jacoco:
 
         elif self.__dict__['tool'] == 'gradle':
             self.stage = """
-            stage('Jacoco') {
+            stage('Jacoco Test') {
                 steps {
-                    jacoco execPattern: 'target/**.exec', runAlways: true
+                    jacoco execPattern: 'build/jacoco/**.exec', runAlways: true
                 }
             }"""

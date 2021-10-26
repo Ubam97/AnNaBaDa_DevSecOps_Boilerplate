@@ -80,10 +80,19 @@ class Variable():
                 self.pluginList.append("ssh-agent@1.23")
                 self.argocd_data = dict['tool']['data']
                 self.argocd_cred = dict['tool']['credential']
+
+            elif dict['tool']['name'] == 'flux':
+                self.toolList.append("flux")
+                self.flux_data = dict['tool']['data']
+                self.flux_cred = dict['tool']['credential']
             
             elif dict['tool']['name'] == 'arachni':
                 self.toolList.append("arachni")
                 self.arachni_data = dict['tool']['data']
+            
+            elif dict['tool']['name'] == 'nikto':
+                self.toolList.append("nikto")
+                self.nikto_data = dict['tool']['data']
 
             else:
                 print("Invalid tool name")
@@ -151,8 +160,14 @@ class Variable():
     def getArgocdCred(self):
         return self.argocd_cred
     
-    def getArgocdCred(self):
-        return self.argocd_cred
+    def getFluxData(self):
+        return self.flux_data
+    
+    def getFluxCred(self):
+        return self.flux_cred
     
     def getArachniData(self):
         return self.arachni_data
+
+    def getNiktoData(self):
+        return self.nikto_data

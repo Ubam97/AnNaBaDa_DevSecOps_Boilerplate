@@ -12,7 +12,9 @@ from dependency import Dependency
 from anchore import Anchore
 from trivy import Trivy
 from argocd import Argocd
+from flux import Flux
 from arachni import Arachni
+from nikto import Nikto
 from variable import Variable
 from jenkinsapi.jenkins import Jenkins
 import urllib.parse
@@ -250,8 +252,37 @@ elif len(sys.argv) == 3:
             snyk_update_hours = "24"
 
             snyk = Snyk(jenkins,token=var.getSnykData()['token'], cred_id=var.getSnykCred()['id'], cred_description=var.getSnykCred()['description'])
-            # snyk.createCredential()
-            # snyk.snykConfigure(snyk_jenkins_configname, snyk_version, snyk_update_hours)
+            
+            # Create Snyk Credential in jenkins
+            cred_url = "http://{}/credentials/store/system/domain/_/createCredentials".format(var.getJenkinsData()['url'])
+            cred_payload = 'json={"": "7", "credentials": {"scope": "GLOBAL", "token": "%s", "$redact": "token", "id": "%s", "description": "%s", "stapler-class": "io.snyk.jenkins.credentials.DefaultSnykApiToken", "$class": "io.snyk.jenkins.credentials.DefaultSnykApiToken"}, }'%(var.getSnykData()['token'], var.getSnykCred()['id'], var.getSnykCred()['description'])
+            
+            def request_test(url, username, password):
+                # Build the Jenkins crumb issuer URL
+                parsed_url = urllib.parse.urlparse(url)
+                crumb_issuer_url = urllib.parse.urlunparse((parsed_url.scheme,
+                                                            parsed_url.netloc,
+                                                            'crumbIssuer/api/json',
+                                                            '', '', ''))
+                # Use the same session for all requests
+                session = requests.session()
+
+                # GET the Jenkins crumb
+                auth = requests.auth.HTTPBasicAuth(username, password)
+                r = session.get(crumb_issuer_url, auth=auth)
+                json = r.json()
+                crumb = {json['crumbRequestField']: json['crumb']}
+
+                # POST to the specified URL
+                headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+                headers.update(crumb)
+                r = session.post(url, headers=headers, data=cred_payload, auth=auth)
+
+            request_test(cred_url, var.getJenkinsData()['username'], var.getJenkinsData()['password'])
+
+
+
+            snyk.snykConfigure(snyk_jenkins_configname, snyk_version, snyk_update_hours)
             stages.append(snyk.__dict__['stage'])
             print("Complete Snyk Configuration")
         else:
@@ -270,7 +301,6 @@ elif len(sys.argv) == 3:
             print("not exists dependency in yaml!")
 
         # 5-1 Dockerhub
-
         # 5-1. Create dockerhub credential with username, password
         if "dockerhub" in toolList:
             dockerhub = Dockerhub(jenkins, cred_id=var.getDockerhubCred()['id'], cred_description=var.getDockerhubCred()[
@@ -417,7 +447,7 @@ elif len(sys.argv) == 3:
             
         elif "anchore" in toolList and "ecr" in toolList:
             anchore_url = "http://{}".format(var.getAnchoreData()['url'])
-            anchore = Anchore(jenkins, tool="ecr", region=var.getECRData()['region'], account=var.getECRData()['account'], cred_id=var.getAnchoreCred()['id'], cred_description=var.getAnchoreCred()['description'], url=anchore_url, username=var.getAnchoreData()['username'], password=var.getAnchoreData()['password'], image=var.getAnchoreData()['image'])
+            anchore = Anchore(jenkins, tool="ecr", accesskey=var.getECRData()['accesskey'], secretkey=var.getECRData()['secretkey'], cred_id=var.getAnchoreCred()['id'], cred_description=var.getAnchoreCred()['description'], url=anchore_url, username=var.getAnchoreData()['username'], password=var.getAnchoreData()['password'], image=var.getAnchoreData()['image'])
             anchore.anchoreConfigure()
             anchore.createCredential()
             stages.append(anchore.__dict__['stage'])
@@ -430,6 +460,7 @@ elif len(sys.argv) == 3:
             trivy = Trivy(jenkins, tool="dockerhub", image=var.getTrivyData()['image'])
             stages.append(trivy.__dict__['stage'])
             print("Complete Trivy Configuration")
+
         elif "trivy" in toolList and "ecr" in toolList:
             trivy = Trivy(jenkins, tool="ecr", image=var.getTrivyData()['image'], region=var.getECRData()['region'], account=var.getECRData()['account'])
             stages.append(trivy.__dict__['stage'])
@@ -457,8 +488,9 @@ elif len(sys.argv) == 3:
             argocd.createCredential()
 
             # 6-2. Create ArgoCD config yaml in git repository
-            argocd_yamldir = "templates"
-            argocd_deployments_yaml = """apiVersion: apps/v1
+            if "dockerhub" in toolList:
+                argocd_yamldir = "templates"
+                argocd_deployments_yaml = """apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: test
@@ -480,7 +512,7 @@ spec:
           ports:
             - containerPort: 80""".format(var.getDockerhubData()['image'])
 
-            argocd_svc_yaml = """apiVersion: v1
+                argocd_svc_yaml = """apiVersion: v1
 kind: Service
 metadata:
   name: test
@@ -492,6 +524,42 @@ spec:
     - port: 80
       targetPort: 8080"""
 
+            elif "ecr" in toolList:
+                argocd_yamldir = "templates"
+                argocd_deployments_yaml = """apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test
+  labels:
+    app: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      containers:
+        - name: test
+          image: {}:latest
+          ports:
+            - containerPort: 80""".format(var.getECRData()['image'])
+
+                argocd_svc_yaml = """apiVersion: v1
+kind: Service
+metadata:
+  name: test
+spec:
+  type: LoadBalancer
+  selector:
+    app: test
+  ports:
+    - port: 80
+      targetPort: 8080"""
+            
             deployments = stringToBase64(argocd_deployments_yaml)
             svc = stringToBase64(argocd_svc_yaml)
 
@@ -563,17 +631,190 @@ spec:
         else:
             print("not exist argocd in yaml!")
 
+        # 6. Flux
+        if "flux" in toolList:
+
+            flux = Flux(jenkins, masternode_url=var.getFluxData()['url'], cred_sshkey=var.getFluxData()['ssh_key'], cred_id=var.getFluxCred()['id'], cred_description=var.getFluxCred()['description'], cred_username=var.getFluxData()['username'])
+            flux.createCredential()
+
+            # 6-2. Create Flux config yaml in git repository
+            if "dockerhub" in toolList:
+                flux_yamldir = "templates"
+                flux_deployments_yaml = """apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test
+  labels:
+    app: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      containers:
+        - name: test
+          image: {}:latest
+          ports:
+            - containerPort: 80""".format(var.getDockerhubData()['image'])
+
+                flux_svc_yaml = """apiVersion: v1
+kind: Service
+metadata:
+  name: test
+spec:
+  type: LoadBalancer
+  selector:
+    app: test
+  ports:
+    - port: 80
+      targetPort: 8080"""
+
+            elif "ecr" in toolList:
+                flux_yamldir = "templates"
+                flux_deployments_yaml = """apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test
+  labels:
+    app: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      containers:
+        - name: test
+          image: {}:latest
+          ports:
+            - containerPort: 80""".format(var.getECRData()['image'])
+
+                flux_svc_yaml = """apiVersion: v1
+kind: Service
+metadata:
+  name: test
+spec:
+  type: LoadBalancer
+  selector:
+    app: test
+  ports:
+    - port: 80
+      targetPort: 8080"""
+            
+            deployments = stringToBase64(flux_deployments_yaml)
+            svc = stringToBase64(flux_svc_yaml)
+
+            # if SCM tool is github:
+            if "github" in toolList:
+                github_requesturl_flux_deployments = "https://api.github.com/repos/{}/{}/contents/{}/deployments.yaml".format(
+                    var.getGithubData()['username'], var.getGithubData()['reponame'], flux_yamldir)
+                body1 = {
+                    "message": "create a default deployments yaml",
+                    "content": deployments
+                }
+                github_requesturl_flux_svc = "https://api.github.com/repos/{}/{}/contents/{}/svc.yaml".format(
+                    var.getGithubData()['username'], var.getGithubData()['reponame'], flux_yamldir)
+                body2 = {
+                    "message": "create a default svc yaml",
+                    "content": svc
+                }
+                github = Github(jenkins, token=var.getGithubData()['token'], cred_id=var.getGithubCred()[
+                                'id'], cred_description=var.getGithubCred()['description'], url=var.getGithubData()['url'])
+                response1 = github.call_api(
+                    "PUT", github_requesturl_flux_deployments, body1)
+                if response1.status_code == 201:
+                    print("Created flux deployment.yaml in Github repository")
+                else:
+                    print("Already exists flux deployment.yaml in github repository")
+                response2 = github.call_api(
+                    "PUT", github_requesturl_flux_svc, body2)
+                if response2.status_code == 201:
+                    print("Created flux svc.yaml in Github repository")
+                else:
+                    print("Already exists flux svc.yaml in github repository")
+
+                stages.append(flux.__dict__['stage'])
+                print("Complete Flux Configuration")
+            
+            # if SCM tool is gitlab:
+            elif "gitlab" in toolList:
+                filepath = "{}/deployments.yaml".format(flux_yamldir)
+                enc_filepath = urllib.parse.quote(filepath, safe="")
+                url = "https://gitlab.com/api/v4/projects/{}/repository/files/{}".format(str(var.getGitlabData()['projectid']), enc_filepath)
+                body = {
+                    "branch": "main",
+                    "content": flux_deployments_yaml,
+                    "commit_message": "create file by api"
+                }
+                response = gitlab.call_api("POST", url, body)
+                if response.status_code == 201:
+                    print("Created deployments.yaml in Gitlab repository")
+                else:
+                    print("Already exists deployments.yaml in Gitlab repository or Unexpected Error")
+
+                filepath = "{}/svc.yaml".format(flux_yamldir)
+                enc_filepath = urllib.parse.quote(filepath, safe="")
+                url = "https://gitlab.com/api/v4/projects/{}/repository/files/{}".format(str(var.getGitlabData()['projectid']), enc_filepath)
+                body = {
+                    "branch": "main",
+                    "content": flux_svc_yaml,
+                    "commit_message": "create file by api"
+                }
+                response = gitlab.call_api("POST", url, body)
+                if response.status_code == 201:
+                    print("Created svc.yaml in Gitlab repository")
+                else:
+                    print("Already exists svc.yaml in Gitlab repository or Unexpected Error")
+
+                stages.append(flux.__dict__['stage'])
+                print("Complete Flux Configuration")
+
+        else:
+            print("not exist flux in yaml!")
+
         # 7. Arachni
         # 7-1. Add arachni pipeline script in jenkinsfile
-        if "arachni" in toolList and "argocd" in toolList:
-            if var.getArachniData()['url'] != None:
+        if "arachni" in toolList:
+            if "argocd" in toolList and var.getArachniData()['url'] != None:
                 arachni = Arachni(cred_id=var.getArgocdCred()['id'], masternode_url=var.getArgocdData()['url'], node_url=var.getArachniData()['url'])
                 stages.append(arachni.__dict__['stage'])
                 print("Complete Arachni Configuration")
-            else:
+
+            elif "flux" in toolList and var.getArachniData()['url'] != None:
+                arachni = Arachni(cred_id=var.getFluxCred()['id'], masternode_url=var.getFluxData()['url'], node_url=var.getArachniData()['url'])
+                stages.append(nikto.__dict__['stage'])
+                print("Complete Nikto Configuration")
+
+            elif "argocd" in toolList and var.getArachniData()['url'] == None:
                 arachni = Arachni(cred_id=var.getArgocdCred()['id'], masternode_url=var.getArgocdData()['url'], node_url="{Add the deployed node URL here}")
                 stages.append(arachni.__dict__['stage'])
                 print("Complete Arachni Configuration")
+  
+            elif "flux" in toolList and var.getArachniData()['url'] == None:
+                arachni = Arachni(cred_id=var.getFluxCred()['id'], masternode_url=var.getFluxCred()['url'], node_url="{Add the deployed node URL here}")
+                stages.append(nikto.__dict__['stage'])
+                print("Complete Nikto Configuration")
+        
+        # 7. Nikto
+        # 7-1. Add nikto pipeline script in jenkinsfile
+        if "nikto" in toolList:
+            if var.getNiktoData()['url'] != None:
+                nikto = Nikto(node_url=var.getNiktoData()['url'])
+                stages.append(nikto.__dict__['stage'])
+                print("Complete Nikto Configuration")
+            else:
+                nikto = Nikto(node_url="{Add the deployed node URL here}")
+                stages.append(nikto.__dict__['stage'])
+                print("Complete Nikto Configuration")
 
         # 8. Pipeline
         # 8-1. Create pipeline script in github repository.
@@ -585,24 +826,6 @@ spec:
             pipelineScript = "jenkinsfile"
             pipelineName = "PIPELINEJOB"
             stages = '\n\t'.join(stages)
-
-            # if "maven" in toolList:
-            #     jenkinsfile = """pipeline {
-            #     agent any
-            #     tools {
-            #         maven 'maven'
-            #     }
-            #     stages {
-            #         %s
-            #     }
-            # }""" % (stages)
-            # else :
-            #     jenkinsfile = """pipeline {
-            #     agent any
-            #     stages {
-            #         %s
-            #     }
-            # }""" % (stages)
 
             jenkinsfile = """pipeline {
                 agent any
