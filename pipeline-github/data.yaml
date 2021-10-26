@@ -1,0 +1,146 @@
+# CI Tool
+- tool:
+    name: jenkins
+    data:
+      url: # your jenkins url, ex) 1.2.3.4:8080
+      username: # your jenkins username, ex) user
+      password: # your jenkins password, ex) password
+
+# SCM Tool
+- tool:
+    name: github
+    data:
+      url: # your github repository url, ex) https://github.com/{username}/{reponame}.git
+      username: # your github username, ex) user01
+      reponame: # your github repository name, ex) springboot_testcode
+      token: # your github PAT token, ex) ghp_abcdabcdabcdabcd
+    credential:
+      id: github_cred
+      description: github_cred_description
+    webhook:
+      events:
+       - push
+       - pull_request
+      contenttype: json
+      active: true
+
+# Message Tool
+- tool:
+    name: slack
+    data:
+      token: # your slack token, ex) abcdabcdabcd
+      subdomain: # your slack subdomain, ex) slacksubdomain
+      channel: # your slack channel, ex) channelname
+    credential:
+      id: slack_cred
+      description: slack_cred_description
+
+# Build Tool
+- tool:
+    name: gradle
+
+- tool:
+    name: maven
+
+# Test Tool
+- tool:
+    name: jacoco
+
+# SAST Tool
+- tool:
+    name: sonarqube
+    data:
+      url: # your sonarqube url, ex) 1.2.3.4:9000
+      token: # your sonarqube token, ex) abcdabcdabcdabcd
+    credential:
+      id: sonar_cred
+      description: sonar_cred_description
+      
+- tool:
+    name: dependency
+
+- tool:
+    name: snyk
+    data:
+      token: # your snyk auth token, ex) abcd-wqb2-...
+    credential:
+      id: snyk_cred
+      description: snyk_cred_description
+
+# Image Registry Tool
+- tool:
+    name: dockerhub
+    data:
+      username: # your dockerhub username, ex) username
+      password: # your dockerhub password, ex) password
+      image: # your dockerhub build image, ex) username/test
+    credential:
+      id: dockerhub_cred
+      description: dockerhub_cred_description
+
+- tool:
+    name: ecr
+    data:
+      accesskey: # your AWS accesskey ex ) abcd...
+      secretkey: # # your AWS secretkey ex ) zyx...
+      account: # your AWS account number
+      region: # your AWS region
+      image: # your repositories url
+    credential:
+      id: aws_cred
+      description: aws_cred_description
+
+# Image Security Tool
+- tool:
+    name: anchore
+    data:
+      url: # your anchore url, ex) 1.2.3.4:8228/v1
+      username: # your anchore username, ex) admin (anchore initial username)
+      password: # your anchore password, ex) foobar (anchore initial password)
+      image: # your dockerhub or ecr image, ex) username/test  ..... I'll delete this part later...  
+    credential:
+      id: anchore_cred
+      description: anchore_cred_description
+
+- tool:
+    name: trivy
+    data:
+      image: # your dockerhub or ecr image, ex) username/test  ..... I'll delete this part later...  
+
+# CD Tool
+- tool:
+    name: argocd
+    data:
+      username: # your argocd username, ex) admin
+      url: # your eks master node url where installed argocd, ex) 1.2.3.4
+      ssh_key: |
+        -----BEGIN RSA PRIVATE KEY-----
+        your eks master node ssh key, pem file
+        -----END RSA PRIVATE KEY-----
+    credential:
+      id: argocd_cred
+      description: argocd_cred_description
+
+- tool:
+    name: flux
+    data:
+      username: # your flux username, ex) admin
+      url: # your eks master node url where installed argocd, ex) 1.2.3.4
+      ssh_key: |
+        -----BEGIN RSA PRIVATE KEY-----
+        your eks master node ssh key, pem file
+        -----END RSA PRIVATE KEY-----
+    credential:
+      id: flux_cred
+      description: flux_cred_description
+    
+# DAST Tool  
+- tool:
+    name: arachni
+    data:
+      url: # Enter the url of the node deployed in argocd. # If there is no url deployed yet, leave it as an empty value, and add the deployed node url to jenkinsfile later.
+
+- tool:
+    name: nikto
+    data:
+      url: # Enter the url of the node deployed in argocd. # If there is no url deployed yet, leave it as an empty value, and add the deployed node url to jenkinsfile later.
