@@ -334,6 +334,31 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 
 ---
 
+## 10. Flyx(Deploy Tool)
+
+**Flux Install**
+
+```bash
+sudo curl -L https://github.com/fluxcd/flux/releases/download/1.14.2/fluxctl_linux_amd64 -o /usr/local/bin/fluxctl
+sudo chmod a+x /usr/local/bin/fluxctl
+```
+
+**Flux Setting**
+
+1. flux git repo add
+```bash
+fluxctl install --git-user=<gitID> --git-email=<gitE-mail> --git-url=<gitSSH_URL> --git-branch=main --git-path=<gitPATH> --namespace=flux | kubectl apply -f –
+```
+2. Issue a ssh key to add access to the git.
+```bash
+fluxctl identity --k8s-fwd-ns flux
+```
+3. Add the issued Deployment key to the git
+![image](https://user-images.githubusercontent.com/88227041/138842054-ef023af2-e062-443b-b212-99d56e3249b1.png)
+
+
+---
+
 ## 10. Arachni
 
 You can install it on the path you want.
