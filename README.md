@@ -292,7 +292,11 @@ PATH="$HOME/.local/bin/:$PATH"
 **Add apitoken issued by snyk to Jenkins.**
 
 1. Jenkins → Global tool configuration
-2. 
+![image](https://user-images.githubusercontent.com/88227041/138830164-5ed414b3-cb4e-4057-8cf3-e72672df446a.png)
+2. Snyk API Token get
+![image](https://user-images.githubusercontent.com/88227041/138831186-092fc906-e3f6-41f9-b890-be9e0ea0a8ce.png)
+3. create jenkins credential
+
 
 
 ## 7. ArgoCD(Deploy Tool)
