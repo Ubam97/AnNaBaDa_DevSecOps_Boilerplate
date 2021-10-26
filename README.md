@@ -287,6 +287,8 @@ PATH="$HOME/.local/bin/:$PATH"
 ## 7. Snyk Setting
 **Add apitoken issued by snyk to Jenkins.**
 
+1. Jenkins → Global tool configuration
+2. 
 
 
 ## 7. ArgoCD(Deploy Tool)
