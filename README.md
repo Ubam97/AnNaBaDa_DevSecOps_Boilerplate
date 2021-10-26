@@ -296,10 +296,11 @@ PATH="$HOME/.local/bin/:$PATH"
 2. Snyk API Token get
 ![image](https://user-images.githubusercontent.com/88227041/138831186-092fc906-e3f6-41f9-b890-be9e0ea0a8ce.png)
 3. create jenkins credential
+![image](https://user-images.githubusercontent.com/88227041/138831887-c529e29a-3d42-40a9-b37f-10618de4a93f.png)
 
 
 
-## 7. ArgoCD(Deploy Tool)
+## 8. ArgoCD(Deploy Tool)
 **You must log in first in the CLI environment.**
 
 ```bash
@@ -327,7 +328,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 
 ---
 
-## 8. Arachni
+## 9. Arachni
 
 You can install it on the path you want.
 
@@ -343,7 +344,7 @@ bundle install
 
 ---
 
-## 9. Prometheus & Grafana(Monitoring)
+## 10. Prometheus & Grafana(Monitoring)
 **Grafana can log in and get the graph you want and monitor it.**
 
 Installation was carried out with Helm chart.
@@ -459,7 +460,7 @@ kubectl get svc
       type: LoadBalancer --- Please fix it.
     ```
 
-## 10. EFK Stack Install
+## 11. EFK Stack Install
 **After installation, you can set it to the setting you want.**
 
 - Edit elasticsearch.yaml
