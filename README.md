@@ -334,7 +334,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 
 ---
 
-## 10. Flyx(Deploy Tool)
+## 10. Flux(Deploy Tool)
 
 **Flux Install**
 
