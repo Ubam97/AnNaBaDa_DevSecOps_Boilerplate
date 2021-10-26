@@ -50,7 +50,7 @@ sudo chmod 666 /var/run/docker.sock
 ```
 ---
 
-## 2. Jenkins & Triby & Nikto Install
+## 2. Jenkins & Triy & Nikto Install
 
 **Plug-in installation list.**
 
