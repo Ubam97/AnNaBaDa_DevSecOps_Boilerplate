@@ -3,7 +3,7 @@
   <installations>
     <hudson.plugins.sonar.SonarInstallation>
       <name>SonarServer</name>
-      <serverUrl>http://13.125.146.184:9000</serverUrl>
+      <serverUrl>http://52.78.126.66:9000</serverUrl>
       <credentialsId>sonar_cred</credentialsId>
       <webhookSecretId />
       <mojoVersion />

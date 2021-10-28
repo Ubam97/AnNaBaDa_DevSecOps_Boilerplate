@@ -456,13 +456,8 @@ elif len(sys.argv) == 3:
             print("not exits anchore in yaml!")
             
         # Trivy
-        if "trivy" in toolList and "dockerhub" in toolList:
-            trivy = Trivy(jenkins, tool="dockerhub", image=var.getTrivyData()['image'])
-            stages.append(trivy.__dict__['stage'])
-            print("Complete Trivy Configuration")
-
-        elif "trivy" in toolList and "ecr" in toolList:
-            trivy = Trivy(jenkins, tool="ecr", image=var.getTrivyData()['image'], region=var.getECRData()['region'], account=var.getECRData()['account'])
+        if "trivy" in toolList:
+            trivy = Trivy(jenkins, image=var.getTrivyData()['image'])
             stages.append(trivy.__dict__['stage'])
             print("Complete Trivy Configuration")
 
