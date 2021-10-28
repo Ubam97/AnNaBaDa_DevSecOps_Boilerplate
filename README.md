@@ -334,6 +334,13 @@ kubectl get svc -n argocd argocd-server
 
 ##Argocd Default password Check
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+
+##Argocd Changing the password
+argocd account update-password
+
+*** Enter current password: current password
+*** Enter new password: new password
+*** Confirm new password: new password
 ```
 
 ---
