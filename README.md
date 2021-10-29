@@ -854,7 +854,13 @@ Run this Project (2 Ways)
 <br/>
 
 ### 2. Run Webserver
+```bash
 
+    cd ~/AnNaBaDa_DevSecOps_Boilerplate/web-server
+    
+    #start
+    python3 main.py
+```
 ![31](https://user-images.githubusercontent.com/78459621/136342016-5631f604-84fe-46c2-a819-14208150849b.PNG)
 
 Pre-installation.
