@@ -793,10 +793,18 @@ Add Jira data in your data.yaml!
 <br/>
 <br/>
 
-### 4. gradle yaml data (optional)
+### 5. gradle yaml data (optional)
 
 ![image](https://user-images.githubusercontent.com/50852749/136328195-0b60e2d7-5b60-4d96-9ed1-c83b7e71483d.png)  
 Just put gradle tool in data.yaml like this.
+<br/>
+<br/>
+<br/>
+
+### 6. maven yaml data (optional)
+
+![5](https://user-images.githubusercontent.com/78459621/139645400-9b3c110b-b0bf-4934-b05d-006715becb9b.PNG)
+Just put maven tool in data.yaml like this.
 <br/>
 <br/>
 <br/>
