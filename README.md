@@ -774,7 +774,26 @@ Add Slack data in your data.yaml!
 <br/>
 <br/>
 
-### 3. gradle yaml data (optional)
+### 4. jira yaml data (optional)
+
+Get Jira sitename, token, secret, branch
+
+![image](https://user-images.githubusercontent.com/88227041/139641908-eca457c3-eacf-48c2-9949-5aaa14d6ab9c.png)
+
+![image](https://user-images.githubusercontent.com/88227041/139641818-9f247e3b-b6b4-482c-8fdb-b858aab6a57d.png)
+Create issue
+
+![image](https://user-images.githubusercontent.com/88227041/139641876-c234d49d-bacf-4693-a069-9fa5b9bdc3d4.png)
+Create OAuth credentials
+
+![image](https://user-images.githubusercontent.com/88227041/139641895-cdc50c1b-03bf-4759-963a-0e9c366aebb3.png)
+
+Add Jira data in your data.yaml!
+<br/>
+<br/>
+<br/>
+
+### 4. gradle yaml data (optional)
 
 ![image](https://user-images.githubusercontent.com/50852749/136328195-0b60e2d7-5b60-4d96-9ed1-c83b7e71483d.png)  
 Just put gradle tool in data.yaml like this.
