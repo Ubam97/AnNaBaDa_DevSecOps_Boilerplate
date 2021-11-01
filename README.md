@@ -54,7 +54,6 @@ sudo chmod 666 /var/run/docker.sock
 
 **Plug-in installation list.**
 
-- Gradle Plugin
 - Anchore Container Image Scanner Plugin
 - SonarQube Scanner
 - OWASP Dependency-Check Plugin
@@ -64,6 +63,11 @@ sudo chmod 666 /var/run/docker.sock
 - Amazon ECR plugin
 - Pipeline: AWS Steps
 - Snyk Security Plugin
+- Atlassian Jira Software Cloud
+- Slack Notification Plugin
+- Jacoco Plugin
+- Docker-Plugin
+- Docker-Pipeline
 
 ```bash
 ##Jenkins Dockerfile
