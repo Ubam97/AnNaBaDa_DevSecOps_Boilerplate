@@ -789,6 +789,7 @@ Create OAuth credentials
 ![image](https://user-images.githubusercontent.com/88227041/139641895-cdc50c1b-03bf-4759-963a-0e9c366aebb3.png)
 
 ![6](https://user-images.githubusercontent.com/78459621/139646267-9837a1f8-e74d-4dc1-80d7-cd374be1f774.PNG)
+<br/>
 Add Jira data in your data.yaml!
 <br/>
 <br/>
