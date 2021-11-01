@@ -804,6 +804,7 @@ Just put gradle tool in data.yaml like this.
 ### 6. maven yaml data (optional)
 
 ![5](https://user-images.githubusercontent.com/78459621/139645400-9b3c110b-b0bf-4934-b05d-006715becb9b.PNG)
+<br/>
 Just put maven tool in data.yaml like this.
 <br/>
 <br/>
