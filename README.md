@@ -302,9 +302,6 @@ PATH="$HOME/.local/bin/:$PATH"
 ![image](https://user-images.githubusercontent.com/88227041/138830164-5ed414b3-cb4e-4057-8cf3-e72672df446a.png)
 2. Snyk API Token get
 ![image](https://user-images.githubusercontent.com/88227041/138831186-092fc906-e3f6-41f9-b890-be9e0ea0a8ce.png)
-3. create jenkins credential
-![image](https://user-images.githubusercontent.com/88227041/138831887-c529e29a-3d42-40a9-b37f-10618de4a93f.png)
-
 ---
 
 **Warning :  We installed the tools below on the EKS-Cluster control plane (master node).**
