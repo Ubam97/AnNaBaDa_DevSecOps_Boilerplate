@@ -835,7 +835,7 @@ If you want to use gradle and sonacube together, add the following content to yo
 ![image](https://user-images.githubusercontent.com/50852749/136328600-4def5149-9807-49b4-9c38-b2e793c8c236.png)
 
 If you want to use maven and sonacube together, add the following content to your pom.xml file.
-![1](https://user-images.githubusercontent.com/78459621/139648423-99281a44-a1b0-45e5-ac85-b9f3ec8b2032.PNG)
+![maven](https://user-images.githubusercontent.com/78459621/139772461-a8ea8a10-b2a0-4610-81ca-61d96a804852.PNG)
 <br/>
 <br/>
 <br/>
