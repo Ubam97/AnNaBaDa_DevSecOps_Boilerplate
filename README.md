@@ -947,7 +947,7 @@ pip3 install flask
 
 Go from the clone directory to the web-server directory in Github run python3 main.py
 
-![32](https://user-images.githubusercontent.com/78459621/136342001-21dd71d9-f0e8-40d1-a44a-8fa922322f0d.PNG)
+![web1](https://user-images.githubusercontent.com/78459621/139773750-34041286-ca8d-42bb-bb32-d59ef8f23012.PNG)
 
 IP address:5500 in the URI address window, the screen appears.
 
@@ -961,10 +961,19 @@ On the download YAML page, you can view the example.yaml file and write yaml acc
 
 You can delete or download the uploaded yaml file.
 
-![37](https://user-images.githubusercontent.com/78459621/136342010-912b12c2-0747-4f3c-b75c-4124e5f0789f.PNG)
+![web2](https://user-images.githubusercontent.com/78459621/139773850-d76b8cd6-0992-4ab5-945d-308e008af676.PNG)
 
 If you enter and execute the uploaded yaml file, read the contents of yaml and link them.
 
 ![39](https://user-images.githubusercontent.com/78459621/136342012-a4b6ca57-f95c-4aae-a464-aa7c61e6c2e0.PNG)
 
 The result screen.
+
+![web3](https://user-images.githubusercontent.com/78459621/139773762-924c40e4-c582-41f5-8fd3-e5acf7014a20.PNG)
+
+If you want a reset, enter the corresponding yaml and reset it.
+
+![web4](https://user-images.githubusercontent.com/78459621/139773766-29d6149f-d598-4675-9fcb-c236d1a429db.PNG)
+
+The result screen.
+
