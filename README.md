@@ -873,17 +873,41 @@ Add accesskey, secretkey, account, region and build image name
 <br/>
 <br/>
 
-### 10. Anchore yaml data (optional, If used, dockerhub is required)
+### 10. Anchore yaml data (optional, If used, dockerhub or ecr is required)
 ![image](https://user-images.githubusercontent.com/50852749/136331535-def1a71a-8b36-441a-a178-6c30f0885cd0.png)  
 Look at the previous installation process, install it, and add data in example.yaml
 <br/>
 <br/>
 <br/>
 
-### 8. Argocd yaml data (optional, If used, dockerhub is required)
+### 11. Trivy yaml data (optional, If used, dockerhub or ecr is required)
+![trivy-yaml](https://user-images.githubusercontent.com/78459621/139771284-ef663e29-2890-4c17-90e6-eaed32085a2f.PNG)
+Look at the previous installation process, install it, and add data in example.yaml
+<br/>
+<br/>
+<br/>
+
+### 12. Argocd yaml data (optional, If used, dockerhub or ecr is required)
 ![image](https://user-images.githubusercontent.com/50852749/136331735-85691822-c31b-41e0-9025-61752afd8226.png)  
 Look at the previous installation process, install it, and add data in example.yaml  
 It is the url of the master node where argocd is installed.  
+<br/>
+<br/>
+<br/>
+
+### 13. Flux yaml data (optional, If used, dockerhub or ecr is required)
+![flux-yaml](https://user-images.githubusercontent.com/78459621/139771429-1e7bd880-20c7-42d5-bf26-a940a9252d0f.PNG) 
+Look at the previous installation process, install it, and add data in example.yaml  
+It is the url of the master node where argocd is installed.  
+<br/>
+<br/>
+<br/>
+
+### 14. arachni and nikto yaml data
+![dast](https://user-images.githubusercontent.com/78459621/139771518-498d334e-cef1-4a55-a3ee-ae58c6e3c383.PNG)
+Enter the distributed URL when the distribution is completed using an Argo CD or flux.
+Arachni's analysis results can be found in the master node.
+Nicto can be found in Jenkins' workspace.
 <br/>
 <br/>
 <br/>
