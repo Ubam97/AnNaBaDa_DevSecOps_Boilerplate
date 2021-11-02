@@ -882,6 +882,7 @@ Look at the previous installation process, install it, and add data in example.y
 
 ### 11. Trivy yaml data (optional, If used, dockerhub or ecr is required)
 ![trivy-yaml](https://user-images.githubusercontent.com/78459621/139771284-ef663e29-2890-4c17-90e6-eaed32085a2f.PNG)
+<br/>
 Look at the previous installation process, install it, and add data in example.yaml
 <br/>
 <br/>
