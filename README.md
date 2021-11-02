@@ -905,7 +905,9 @@ It is the url of the master node where argocd is installed.
 ### 14. arachni and nikto yaml data
 ![dast](https://user-images.githubusercontent.com/78459621/139771518-498d334e-cef1-4a55-a3ee-ae58c6e3c383.PNG)
 Enter the distributed URL when the distribution is completed using an Argo CD or flux.
+<br/>
 Arachni's analysis results can be found in the master node.
+<br/>
 Nicto can be found in Jenkins' workspace.
 <br/>
 <br/>
