@@ -733,7 +733,7 @@ YAML (Just put the tools you need in the yaml file.)
 
 ![image](https://user-images.githubusercontent.com/50852749/136325068-b301114f-1e6e-4fcc-81b6-0a5b09fbfec7.png)
 
-Add jenkins data in your data.yaml!
+Add jenkins data in your example.yaml!
 <br/>
 <br/>
 <br/>
@@ -752,7 +752,7 @@ Get Github Personal Access Token
 
 ![image](https://user-images.githubusercontent.com/50852749/136324804-4bb913d8-2f33-4d67-976b-e2f12d590c8b.png)
 
-Add token and others in your data.yaml!
+Add token and others in your example.yaml!
 <br/>
 <br/>
 <br/>
@@ -773,7 +773,7 @@ Get the subdomain and token data
 
 ![image](https://user-images.githubusercontent.com/50852749/136326349-508ec9bd-d9e3-4628-a888-4c578c45bb48.png)
 
-Add Slack data in your data.yaml!
+Add Slack data in your example.yaml!
 <br/>
 <br/>
 <br/>
@@ -794,7 +794,7 @@ Create OAuth credentials
 
 ![6](https://user-images.githubusercontent.com/78459621/139646267-9837a1f8-e74d-4dc1-80d7-cd374be1f774.PNG)
 <br/>
-Add Jira data in your data.yaml!
+Add Jira data in your example.yaml!
 <br/>
 <br/>
 <br/>
@@ -802,7 +802,7 @@ Add Jira data in your data.yaml!
 ### 5. gradle yaml data (optional)
 
 ![image](https://user-images.githubusercontent.com/50852749/136328195-0b60e2d7-5b60-4d96-9ed1-c83b7e71483d.png)  
-Just put gradle tool in data.yaml like this.
+Just put gradle tool in example.yaml like this.
 <br/>
 <br/>
 <br/>
@@ -811,7 +811,7 @@ Just put gradle tool in data.yaml like this.
 
 ![5](https://user-images.githubusercontent.com/78459621/139645400-9b3c110b-b0bf-4934-b05d-006715becb9b.PNG)
 <br/>
-Just put maven tool in data.yaml like this.
+Just put maven tool in example.yaml like this.
 <br/>
 <br/>
 <br/>
@@ -828,7 +828,7 @@ Get the sonarqube token here
 
 ![image](https://user-images.githubusercontent.com/50852749/136327759-16538c8f-1aa7-45f5-9780-f4454db06521.png)  
 
-Add Sonarqube token in your data.yaml!
+Add Sonarqube token in your example.yaml!
 
 #### Caution
 If you want to use gradle and sonacube together, add the following content to your build.gradle file.  
@@ -840,35 +840,46 @@ If you want to use maven and sonacube together, add the following content to you
 <br/>
 <br/>
 
-### 5. OAWSP dependency check yaml data (optional)
+### 8. OAWSP dependency check yaml data (optional)
 ![image](https://user-images.githubusercontent.com/50852749/136330882-d5ced98e-06e1-4904-a283-63dc41ca722d.png)
 <br/>
-Just put dependency check tool in data.yaml like this.
+Just put dependency check tool in example.yaml like this.
 <br/>
 <br/>
 <br/>
 
-### 6. Dockerhub yaml data (optional)
+### 9. Dockerhub yaml data (optional)
 ![image](https://user-images.githubusercontent.com/50852749/136331133-e47208ba-1612-41ae-a202-721d41df7315.png)  
 Sign up dockerhub! and get the username and password 
 <br/>
 <br/>
-![image](https://user-images.githubusercontent.com/50852749/136331017-17518348-b850-49db-816a-40730beddb80.png)  
+![ecr-yaml](https://user-images.githubusercontent.com/78459621/139769985-be360ad6-eff3-47a8-a15b-b007705a336d.PNG)
+Add accesskey, secretkey, account, region and build image name
+<br/>
+<br/>
+<br/>
+
+### 10. ECR yaml data (optional)
+![ecr2](https://user-images.githubusercontent.com/78459621/139770259-425da4b4-df4d-487a-8c6c-b189232cc421.PNG)
+Sign up ecr! and get ecr url
+<br/>
+<br/>
+![ecr-yaml](https://user-images.githubusercontent.com/78459621/139769985-be360ad6-eff3-47a8-a15b-b007705a336d.PNG)
 Add build image name ex) username/imagename
 <br/>
 <br/>
 <br/>
 
-### 7. Anchore yaml data (optional, If used, dockerhub is required)
+### 10. Anchore yaml data (optional, If used, dockerhub is required)
 ![image](https://user-images.githubusercontent.com/50852749/136331535-def1a71a-8b36-441a-a178-6c30f0885cd0.png)  
-Look at the previous installation process, install it, and add data in data.yaml
+Look at the previous installation process, install it, and add data in example.yaml
 <br/>
 <br/>
 <br/>
 
 ### 8. Argocd yaml data (optional, If used, dockerhub is required)
 ![image](https://user-images.githubusercontent.com/50852749/136331735-85691822-c31b-41e0-9025-61752afd8226.png)  
-Look at the previous installation process, install it, and add data in data.yaml  
+Look at the previous installation process, install it, and add data in example.yaml  
 It is the url of the master node where argocd is installed.  
 <br/>
 <br/>
@@ -882,10 +893,10 @@ Run this Project (2 Ways)
     cd ~/AnNaBaDa_DevSecOps_Boilerplate/pipeline-github
     
     #start
-    python3 pipeline.py start data.yaml
+    python3 pipeline.py start example.yaml
 
     #reset
-    python3 pipeline.py reset data.yaml
+    python3 pipeline.py reset example.yaml
 ```
 <br/>
 <br/>
