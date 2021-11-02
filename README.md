@@ -896,7 +896,8 @@ It is the url of the master node where argocd is installed.
 <br/>
 
 ### 13. Flux yaml data (optional, If used, dockerhub or ecr is required)
-![flux-yaml](https://user-images.githubusercontent.com/78459621/139771429-1e7bd880-20c7-42d5-bf26-a940a9252d0f.PNG) 
+![flux-yaml](https://user-images.githubusercontent.com/78459621/139771429-1e7bd880-20c7-42d5-bf26-a940a9252d0f.PNG)
+<br/>
 Look at the previous installation process, install it, and add data in example.yaml  
 It is the url of the master node where argocd is installed.  
 <br/>
