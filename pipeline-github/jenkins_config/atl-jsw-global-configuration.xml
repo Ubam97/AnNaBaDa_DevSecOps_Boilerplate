@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<com.atlassian.jira.cloud.jenkins.config.JiraCloudPluginConfig plugin="atlassian-jira-software-cloud@1.4.4">
+  <sites>
+    <atl-jsw-site-configuration>
+      <site>...</site>
+      <clientId>...</clientId>
+      <credentialsId>...</credentialsId>
+    </atl-jsw-site-configuration>
+  </sites>
+</com.atlassian.jira.cloud.jenkins.config.JiraCloudPluginConfig>

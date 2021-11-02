@@ -25,6 +25,12 @@ class Variable():
                 self.slack_data = dict['tool']['data']
                 self.slack_cred = dict['tool']['credential']
 
+            elif dict['tool']['name'] == 'jira':
+                self.toolList.append("jira")
+                self.pluginList.append("atlassian-jira-software-cloud@1.4.4")
+                self.jira_data = dict['tool']['data']
+                self.jira_cred = dict['tool']['credential']
+
             elif dict['tool']['name'] == 'gradle':
                 self.toolList.append("gradle")
 
@@ -120,6 +126,12 @@ class Variable():
     
     def getSlackCred(self):
         return self.slack_cred
+
+    def getJiraData(self):
+        return self.jira_data
+    
+    def getJiraCred(self):
+        return self.jira_cred
 
     def getSonarqubeData(self):
         return self.sonar_data

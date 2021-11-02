@@ -35,6 +35,18 @@
       id: slack_cred
       description: slack_cred_description
 
+- tool:
+    name: jira
+    data:
+      site: # your jira url ex) text.atlassian.net
+      token: # your OAuth credentials Client ID ex) abcd1234...
+      secret: # your OAuth credentials Secret ex) aBcD1234...
+      branch: #your Project Issue Type ex) text-1
+    credential:
+      id: jira_cred
+      description: jira_cred_description
+
+
 # Build Tool
 - tool:
     name: gradle
@@ -83,9 +95,9 @@
     data:
       accesskey: # your AWS accesskey ex ) abcd...
       secretkey: # # your AWS secretkey ex ) zyx...
-      account: # your AWS account number
-      region: # your AWS region
-      image: # your repositories url
+      account: # your AWS account number ex) 1234567890987
+      region: # your AWS region ex) ap-northeast-2
+      image: # your repositories url ex) 1234567890987.dkr.ecr.ap-northeast-2.amazonaws.com/test
     credential:
       id: aws_cred
       description: aws_cred_description

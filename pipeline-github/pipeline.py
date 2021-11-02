@@ -1,6 +1,7 @@
 from github import Github
 from gitlab import Gitlab
 from slack import Slack
+from jira import Jira
 from gradle import Gradle
 from maven import Maven
 from jacoco import Jacoco
@@ -143,6 +144,17 @@ elif len(sys.argv) == 3:
             print("Complete Slack Configuration")
         else:
             print("not exist slack tool in yaml!")
+
+        # Jira
+        if "jira" in toolList:
+            jira=Jira(jenkins, site=var.getJiraData()['site'], token=var.getJiraData()['token'], secret=var.getJiraData()['secret'], branch=var.getJiraData()['branch'], cred_id=var.getJiraCred()['id'], cred_description=var.getJiraCred()['description'])
+
+            jira.createCredential()
+            jira.jiraConfigure()
+            stages.append(jira.__dict__['stage'])
+            print("Complete Jira Configuration")
+        else:
+            print("not exist jira tool in yaml!")
 
         # 3-1. Gradle
         if "gradle" in toolList:
@@ -815,7 +827,7 @@ spec:
         # 8-1. Create pipeline script in github repository.
         if len(toolList) > 0:
             print("jenkins server restarting.......")
-            # jenkins.safe_restart()
+            jenkins.safe_restart()
             print("Completed jenkins server restarting!")
 
             pipelineScript = "jenkinsfile"

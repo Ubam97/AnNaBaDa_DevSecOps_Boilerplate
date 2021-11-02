@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <jenkins.plugins.slack.SlackNotifier_-DescriptorImpl plugin="slack@2.48">
   <baseUrl />
-  <teamDomain>apitest-hob6931</teamDomain>
+  <teamDomain>w1627043910-z1r526851</teamDomain>
   <tokenCredentialId>slack_cred</tokenCredentialId>
   <botUser>false</botUser>
   <sendAsText>false</sendAsText>
   <iconEmoji />
   <username />
-  <room>jenkins</room>
+  <room>test</room>
 </jenkins.plugins.slack.SlackNotifier_-DescriptorImpl>
