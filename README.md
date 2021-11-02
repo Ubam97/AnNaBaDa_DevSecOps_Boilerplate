@@ -853,19 +853,22 @@ Just put dependency check tool in example.yaml like this.
 Sign up dockerhub! and get the username and password 
 <br/>
 <br/>
-![ecr-yaml](https://user-images.githubusercontent.com/78459621/139769985-be360ad6-eff3-47a8-a15b-b007705a336d.PNG)
-Add accesskey, secretkey, account, region and build image name
+![docker](https://user-images.githubusercontent.com/78459621/139770696-2aa39220-017e-43b8-8e32-26fa7f3633a0.PNG)
+<br/>
+Add build image name ex) username/imagename
 <br/>
 <br/>
 <br/>
 
 ### 10. ECR yaml data (optional)
 ![ecr2](https://user-images.githubusercontent.com/78459621/139770259-425da4b4-df4d-487a-8c6c-b189232cc421.PNG)
+<br/>
 Sign up ecr! and get ecr url
 <br/>
 <br/>
 ![ecr-yaml](https://user-images.githubusercontent.com/78459621/139769985-be360ad6-eff3-47a8-a15b-b007705a336d.PNG)
-Add build image name ex) username/imagename
+<br/>
+Add accesskey, secretkey, account, region and build image name
 <br/>
 <br/>
 <br/>
