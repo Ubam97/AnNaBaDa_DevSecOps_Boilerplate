@@ -726,7 +726,7 @@ kubectl apply -f efk/*
 
 YAML (Just put the tools you need in the yaml file.)
 =============
-### 1. jenkins yaml data (Required)
+### 1. Jenkins yaml data (Required)
 
 ![image](https://user-images.githubusercontent.com/50852749/136325068-b301114f-1e6e-4fcc-81b6-0a5b09fbfec7.png)
 
@@ -735,7 +735,7 @@ Add jenkins data in your example.yaml!
 <br/>
 <br/>
 
-### 2. github yaml data (github or gitlab Required)
+### 2. Github yaml data (github or gitlab Required)
 
 Get Github Personal Access Token
 
@@ -754,7 +754,7 @@ Add token and others in your example.yaml!
 <br/>
 <br/>
 
-### 3. gitlab yaml data (github or gitlab Required)
+### 3. Gitlab yaml data (github or gitlab Required)
 
 Get Gitlab token and project id
 ![image](https://user-images.githubusercontent.com/50852749/140314272-ae4b7eab-6851-4a1b-ab02-b97e3fcade77.png)  
@@ -768,7 +768,7 @@ Add token and others in your data.yaml!
 <br/>
 <br/>
 
-### 4. slack yaml data (optional)
+### 4. Slack yaml data (optional)
 
 Get Slack subdomain, channel, token
 
@@ -789,7 +789,7 @@ Add Slack data in your example.yaml!
 <br/>
 <br/>
 
-### 5. jira yaml data (optional)
+### 5. Jira yaml data (optional)
 
 Get Jira sitename, token, secret, branch
 
@@ -810,7 +810,7 @@ Add Jira data in your example.yaml!
 <br/>
 <br/>
 
-### 6. gradle yaml data (optional)
+### 6. Gradle yaml data (optional)
 
 ![image](https://user-images.githubusercontent.com/50852749/136328195-0b60e2d7-5b60-4d96-9ed1-c83b7e71483d.png)  
 Just put gradle tool in example.yaml like this.
@@ -818,7 +818,7 @@ Just put gradle tool in example.yaml like this.
 <br/>
 <br/>
 
-### 7. maven yaml data (optional)
+### 7. Maven yaml data (optional)
 
 ![5](https://user-images.githubusercontent.com/78459621/139645400-9b3c110b-b0bf-4934-b05d-006715becb9b.PNG)
 <br/>
@@ -827,7 +827,7 @@ Just put maven tool in example.yaml like this.
 <br/>
 <br/>
 
-### 8. jacoco yaml data (optional)
+### 8. Jacoco yaml data (optional)
 
 ![jacoco](https://user-images.githubusercontent.com/78459621/139776620-13327b12-9eb6-4017-ae4f-865392f52ea7.PNG)
 <br/>
@@ -837,7 +837,7 @@ Basically, the test is conducted with junit, and jacoco is an option.
 <br/>
 
 
-### 9. sonarqube yaml data (optional)
+### 9. Sonarqube yaml data (optional)
 
 Get sonarqube token
 
@@ -909,24 +909,16 @@ Look at the previous installation process, install it, and add data in example.y
 <br/>
 <br/>
 
-### 15. Argocd yaml data (optional, If used, dockerhub or ecr is required)
-![image](https://user-images.githubusercontent.com/50852749/136331735-85691822-c31b-41e0-9025-61752afd8226.png)  
+### 15. Argocd and Flux yaml data (optional, If used, dockerhub or ecr is required)
+![image](https://user-images.githubusercontent.com/50852749/136331735-85691822-c31b-41e0-9025-61752afd8226.png)
+![flux](https://user-images.githubusercontent.com/78459621/140320602-3bec4d7a-1b68-40ff-985c-73fbd52e6027.PNG)
 Look at the previous installation process, install it, and add data in example.yaml  
-It is the url of the master node where argocd is installed.  
+It is the url of the master node where argocd or flux is installed.  
 <br/>
 <br/>
 <br/>
 
-### 16. Flux yaml data (optional, If used, dockerhub or ecr is required)
-![flux-yaml](https://user-images.githubusercontent.com/78459621/139771429-1e7bd880-20c7-42d5-bf26-a940a9252d0f.PNG)
-<br/>
-Look at the previous installation process, install it, and add data in example.yaml  
-It is the url of the master node where argocd is installed.  
-<br/>
-<br/>
-<br/>
-
-### 17. arachni and nikto yaml data
+### 16. Arachni and Nikto yaml data
 ![dast](https://user-images.githubusercontent.com/78459621/139771518-498d334e-cef1-4a55-a3ee-ae58c6e3c383.PNG)
 Enter the distributed URL when the distribution is completed using an Argo CD or flux.
 <br/>
