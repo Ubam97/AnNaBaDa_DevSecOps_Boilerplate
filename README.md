@@ -735,7 +735,7 @@ Add jenkins data in your example.yaml!
 <br/>
 <br/>
 
-### 2. github yaml data (Required) (gitlab and bitbucket will be added.)
+### 2-1. github yaml data (github or gitlab Required)
 
 Get Github Personal Access Token
 
@@ -750,6 +750,20 @@ Get Github Personal Access Token
 ![image](https://user-images.githubusercontent.com/50852749/136324804-4bb913d8-2f33-4d67-976b-e2f12d590c8b.png)
 
 Add token and others in your example.yaml!
+<br/>
+<br/>
+<br/>
+
+### 2-2. gitlab yaml data (github or gitlab Required)
+
+Get Gitlab token and project id
+![image](https://user-images.githubusercontent.com/50852749/140314272-ae4b7eab-6851-4a1b-ab02-b97e3fcade77.png)  
+
+![image](https://user-images.githubusercontent.com/50852749/140311551-37ea3392-668a-4447-a6f4-0c3141365005.png)
+
+![image](https://user-images.githubusercontent.com/50852749/140314228-15b8e551-6a7c-45dd-a76a-7ae648e7d4e8.png)  
+
+Add token and others in your data.yaml!
 <br/>
 <br/>
 <br/>
