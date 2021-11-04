@@ -24,6 +24,18 @@
       contenttype: json
       active: true
 
+- tool:
+    name: gitlab
+    data:
+      url: # your github repository url, ex) https://gitlab.com/{username}/{reponame}.git
+      username: # your gitlab username, ex) user01
+      password: # your gitlab password
+      projectid: # your gitlab projectid, ex) 30212301
+      token: # your gitlab token
+    credential:
+      id: gitlab_cred
+      description: gitlab_cred_description
+
 # Message Tool
 - tool:
     name: slack
