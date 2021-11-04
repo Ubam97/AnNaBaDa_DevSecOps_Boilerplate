@@ -912,6 +912,7 @@ Look at the previous installation process, install it, and add data in example.y
 ### 15. Argocd and Flux yaml data (optional, If used, dockerhub or ecr is required)
 ![image](https://user-images.githubusercontent.com/50852749/136331735-85691822-c31b-41e0-9025-61752afd8226.png)
 ![flux](https://user-images.githubusercontent.com/78459621/140320602-3bec4d7a-1b68-40ff-985c-73fbd52e6027.PNG)
+<br/>
 Look at the previous installation process, install it, and add data in example.yaml  
 It is the url of the master node where argocd or flux is installed.  
 <br/>
